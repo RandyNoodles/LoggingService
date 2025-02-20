@@ -1,0 +1,12 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Logging Service Incoming Message",
+    "description": "If JSON is selected as the type of incoming message, the fields can be configured here. Note that timestamp and client_ip are both automatically included.",
+    "type": "object",
+    "properties": {
+        "level": { "type": "string", "enum": ["INFO", "ERROR", "WARN"] },
+        "source": { "type": "string", "maxLength": 32 },
+        "message": { "type": "string", "maxLength": 1024 }
+    },
+    "required": ["level", "source", "message"]
+}
