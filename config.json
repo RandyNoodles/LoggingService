@@ -1,4 +1,8 @@
 {
+    "server_settings":{
+        "ip":"127.0.0.1",
+        "port":13000
+    },
     "logfile_settings": {
         "path_type": "relative",
         "path": "/logs",
@@ -6,10 +10,11 @@
         "plaintext_field_delimiter": "|",
         "plaintext_entry_delimiter": "\n",
         "max_size_kb": 5000,  
-        "rotation_minutes": 10
+        "rotation_minutes": 10,
+        "column_order": ["timestamp", "source_id", ""]
     },
     "protocol_settings": {
-        "incoming_json_schema": "/config/incoming_message_schema.json",
+        "incoming_json_schema": "../incoming_message_schema.json",
         "messages_per_ip_per_minute": 20,
         "messages_per_source_id_per_minute": 10,
         "bad_message_blacklist_threshold": 5,
@@ -17,10 +22,15 @@
         "blacklist_permanent": false,
         "blacklist_duration_minutes": 60
     },
+    "required_field_settings":{
+        "timestamp_format":"UnixDate",
+        "timestamp_include_in_logs": true,
+        "source_ip_include_in_logs":true
+    },
     "error_handling": {
         "missing_required_field": "redirect_to_error_log",
         "extra_field": "truncate",
         "invalid_message": "redirect_to_error_log",
         "error_log_path": "/var/log/my_logging_service_errors.log"
     }
-  }
+}

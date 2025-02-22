@@ -2,6 +2,13 @@
     "$schema": "http://json-schema.org/draft-07/schema#",
     "type": "object",
     "properties": {
+        "server_settings":{
+            "type": "object",
+            "properties": {
+                "ip": {"type": "string", "format": "ipv4"},
+                "port": {"type": "integer", "minimum": 1, "maximum": 65535}
+            }
+        },
         "logfile_settings": {
             "type": "object",
             "properties": {
@@ -11,9 +18,10 @@
                 "plaintext_field_delimiter": {"type": "string", "maxLength": 1},
                 "plaintext_entry_delimiter": {"type": "string"},
                 "max_size_kb": { "type": "integer", "minimum": 5000, "maximum": 65536 },
-                "rotation_minutes": { "type": "integer", "minimum": 0 }
+                "rotation_minutes": { "type": "integer", "minimum": 0 },
+                "column_order": {"type": "array", "minItems": 3, "maxItems": 30}
             },
-            "required": ["path_type", "path", "format","plaintext_field_delimiter","plaintext_entry_delimiter", "max_size_kb", "rotation_minutes"]
+            "required": ["path_type", "path", "format","plaintext_field_delimiter","plaintext_entry_delimiter", "max_size_kb", "rotation_minutes", "column_order"]
         },
         "protocol_settings": {
             "type": "object",
@@ -45,6 +53,15 @@
                 "error_log_path": { "type": "string" }
             },
             "required": ["missing_required_field", "extra_field", "invalid_message", "error_log_path"]
+        },
+        "required_field_settings":{
+            "type": "object",
+            "properties": {
+                "timestamp_format": {"type": "string", "enum": ["ANSIC", "UnixDate", "RubyDate", "RFC822", "RFC822Z", "RFC850", "RFC1123", "RFC1123Z", "RFC3339", "RFC3339Nano", "Kitchen"]},
+                "timestamp_include_in_logs": {"type": "boolean"},
+                "source_ip_include_in_logs": {"type": "boolean"}
+            },
+            "required": [ "timestamp_format","timestamp_include_in_logs", "source_ip_include_in_logs"]
         }
     },
     "required": ["logfile_settings", "protocol_settings", "error_handling"]
