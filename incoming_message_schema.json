@@ -1,0 +1,14 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Logging Service Incoming Message",
+    "description": "All fields for the logging service can be configured here. For more detailed guidance see README.md",
+    "$comment": "timestamp and source_id properties are REQUIRED. If not present, the schema will be rejected upon startup.",
+    "type": "object",
+    "properties": {
+        "timestamp": {"type": "string"},
+        "source_id": {"type": "string", "maxLength": 32, "minLength": 32},
+        "level": { "type": "string", "enum": ["INFO", "ERROR", "WARN"] },
+        "message": { "type": "string", "maxLength": 1024 }
+    },
+    "required": ["timestamp", "source_id", "level", "message"]
+}

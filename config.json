@@ -1,19 +1,17 @@
 {
     "logfile_settings": {
-        "valid_levels": ["INFO", "ERROR", "WARN"],
         "path_type": "relative",
         "path": "/logs",
         "format": "JSON",
-        "non_syslog_field_order":["timestamp", "level", "source", "user_ip", "details"],
         "plaintext_field_delimiter": "|",
         "plaintext_entry_delimiter": "\n",
         "max_size_kb": 5000,  
         "rotation_minutes": 10
     },
     "protocol_settings": {
-        "format": "JSON",
         "incoming_json_schema": "/config/incoming_message_schema.json",
-        "messages_per_ip_per_minute": 25,
+        "messages_per_ip_per_minute": 20,
+        "messages_per_source_id_per_minute": 10,
         "bad_message_blacklist_threshold": 5,
         "blacklisted_ips": [],
         "blacklist_permanent": false,
@@ -22,7 +20,6 @@
     "error_handling": {
         "missing_required_field": "redirect_to_error_log",
         "extra_field": "truncate",
-        "field_exceeds_length": "truncate",
         "invalid_message": "redirect_to_error_log",
         "error_log_path": "/var/log/my_logging_service_errors.log"
     }
