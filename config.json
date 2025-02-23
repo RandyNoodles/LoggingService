@@ -19,6 +19,7 @@
         "messages_per_source_id_per_minute": 10,
         "bad_message_blacklist_threshold": 5,
         "blacklisted_ips": [],
+        "blacklisted_source_ids": [],
         "blacklist_permanent": false,
         "blacklist_duration_seconds": 60
     },

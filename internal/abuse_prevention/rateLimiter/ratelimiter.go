@@ -49,3 +49,12 @@ func (mrb *RateLimiter) IsRateExceeded() (bool, uint32) {
 
 	return false, mrb.clientOffenses
 }
+
+func (mrb *RateLimiter) IncrementClientOffenses() uint32 {
+	mrb.clientOffenses++
+	return mrb.clientOffenses
+}
+
+func (mrb *RateLimiter) ResetClientOffenses() {
+	mrb.clientOffenses = 0
+}

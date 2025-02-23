@@ -47,6 +47,7 @@ type ProtocolSettings struct {
 	SourceMessagesPerMinute      int      `json:"messages_per_source_id_per_minute"`
 	BadMessageBlacklistThreshold int      `json:"bad_message_blacklist_threshold"`
 	BlacklistedIPs               []string `json:"blacklisted_ips"`
+	BlacklistedSourceIds         []string `json:"blacklisted_source_ids"`
 	BlacklistPermanent           bool     `json:"blacklist_permanent"`
 	BlacklistDurationSeconds     int      `json:"blacklist_duration_seconds"`
 	IncomingMessageSchema        []byte

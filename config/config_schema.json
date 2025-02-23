@@ -31,6 +31,7 @@
                 "messages_per_source_id_per_minute": {"type": "integer", "minimum": 1},
                 "bad_message_blacklist_threshold": { "type": "integer", "minimum": 1 },
                 "blacklisted_ips": { "type": "array", "items": { "type": "string", "format": "ipv4" } },
+                "blacklisted_source_ids": {"type": "array", "items": {"type": "string"}},
                 "blacklist_permanent": { "type": "boolean" },
                 "blacklist_duration_seconds": { "type": "integer", "minimum": 1 }
             },
