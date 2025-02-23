@@ -51,39 +51,29 @@ func New(protocolConfig config.ProtocolSettings) *AbusePreventionTracker {
 	return newTracker
 }
 
-func (apt *AbusePreventionTracker) IsValidMessage(ipAddress string, sourceId string) error {
-
-	result := apt.CheckBlacklist(ipAddress, sourceId)
-	if result != nil {
-		return result
-	}
-
-	apt.RegisterSource(ipAddress, sourceId)
-
-	//Check for rate limit exceeded for source
+func (apt *AbusePreventionTracker) CheckSourceRateLimiter(sourceId, ipAddress string) error {
 	rejected, clientOffenses := apt.sourceRateLimiters[sourceId].IsRateExceeded()
 	if rejected {
-		//If the client has exceeded bad message threshold, ban 'em
 		if clientOffenses >= apt.badMessageThreshold {
-
+			// Ban the IP if the client has exceeded the bad message threshold.
 			apt.blacklistedIPs[ipAddress] = uint32(time.Now().Unix())
 			return fmt.Errorf("IP address %s has exceeded its message rate limit too many times. IP address is now banned for %d seconds", ipAddress, apt.blacklistDurationSeconds)
 		}
 		return fmt.Errorf("source_id '%s' has exceeded its message rate limit", sourceId)
 	}
+	return nil
+}
 
-	//Then check for rate limit of IP
-	rejected, clientOffenses = apt.ipRateLimiters[ipAddress].IsRateExceeded()
+func (apt *AbusePreventionTracker) CheckIPRateLimiter(ipAddress string) error {
+	rejected, clientOffenses := apt.ipRateLimiters[ipAddress].IsRateExceeded()
 	if rejected {
-		//If the client has exceeded bad message threshold, ban 'em
 		if clientOffenses >= apt.badMessageThreshold {
-			clientOffenses = 0
+			// Ban the IP if the client has exceeded the bad message threshold.
 			apt.blacklistedIPs[ipAddress] = uint32(time.Now().Unix())
 			return fmt.Errorf("IP address %s has exceeded its message rate limit too many times. IP address is now banned for %d seconds", ipAddress, apt.blacklistDurationSeconds)
 		}
 		return fmt.Errorf("IP address %s has exceeded its message rate limit", ipAddress)
 	}
-
 	return nil
 }
 
@@ -103,35 +93,33 @@ func (apt *AbusePreventionTracker) RegisterSource(ipAddress string, sourceId str
 
 }
 
-func (apt *AbusePreventionTracker) CheckBlacklist(ipAddress string, sourceId string) error {
-	//Are they in the list of blacklisted ips?
+func (apt *AbusePreventionTracker) CheckIPBlacklist(ipAddress string) error {
 	if timestamp, exists := apt.blacklistedIPs[ipAddress]; exists {
-
-		//How long they've been banned for
-		durationBanned := (uint32(time.Now().Unix()) - timestamp)
-
-		//If they've served their time, unban them
+		durationBanned := uint32(time.Now().Unix()) - timestamp
 		if durationBanned >= apt.blacklistDurationSeconds {
+			// They've served their time; unban them.
 			delete(apt.blacklistedIPs, ipAddress)
 		} else {
-			//Else reject
-			return fmt.Errorf("ip is blacklisted for %v more seconds", durationBanned-apt.blacklistDurationSeconds)
+			// Still banned; calculate the remaining time.
+			remaining := apt.blacklistDurationSeconds - durationBanned
+			return fmt.Errorf("ip is blacklisted for %v more seconds", remaining)
 		}
 	}
+	return nil
+}
 
+func (apt *AbusePreventionTracker) CheckSourceIDBlacklist(sourceId string) error {
 	if timestamp, exists := apt.blacklistedSourceIds[sourceId]; exists {
-		//How long they've been banned for
-		durationBanned := (uint32(time.Now().Unix()) - timestamp)
-
-		//If they've served their time, unban them
+		durationBanned := uint32(time.Now().Unix()) - timestamp
 		if durationBanned >= apt.blacklistDurationSeconds {
+			// They've served their time; unban them.
 			delete(apt.blacklistedSourceIds, sourceId)
 		} else {
-			//Else reject
-			return fmt.Errorf("source_id is blacklisted for %v more seconds", durationBanned-apt.blacklistDurationSeconds)
+			// Still banned; calculate the remaining time.
+			remaining := apt.blacklistDurationSeconds - durationBanned
+			return fmt.Errorf("source_id is blacklisted for %v more seconds", remaining)
 		}
 	}
-
 	return nil
 }
 

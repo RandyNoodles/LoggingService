@@ -5,8 +5,8 @@
     },
     "logfile_settings": {
         "path_type": "relative",
-        "path": "/logs",
-        "format": "JSON",
+        "path": "./logs.txt",
+        "format": "json",
         "plaintext_field_delimiter": "|",
         "plaintext_entry_delimiter": "\n",
         "max_size_kb": 5000,  
@@ -29,9 +29,8 @@
         "source_ip_include_in_logs":true
     },
     "error_handling": {
-        "missing_required_field": "redirect_to_error_log",
         "extra_field": "truncate",
         "invalid_message": "redirect_to_error_log",
-        "error_log_path": "/var/log/my_logging_service_errors.log"
+        "error_log_path": "./errors.txt"
     }
 }

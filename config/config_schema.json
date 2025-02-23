@@ -14,7 +14,7 @@
             "properties": {
                 "path_type": { "type": "string", "enum": ["relative", "absolute"] },
                 "path": { "type": "string" },
-                "format": { "type": "string", "enum": ["JSON", "plaintext"] },
+                "format": { "type": "string", "enum": ["json", "plaintext"] },
                 "plaintext_field_delimiter": {"type": "string", "maxLength": 1},
                 "plaintext_entry_delimiter": {"type": "string"},
                 "max_size_kb": { "type": "integer", "minimum": 5000, "maximum": 65536 },
@@ -35,7 +35,7 @@
                 "blacklist_permanent": { "type": "boolean" },
                 "blacklist_duration_seconds": { "type": "integer", "minimum": 1 }
             },
-            "required": ["incoming_json_schema", "messages_per_ip_per_minute", "messages_per_source_id_per_minute", "bad_message_blacklist_threshold", "blacklist_permanent", "blacklist_duration_minutes"]
+            "required": ["incoming_json_schema", "messages_per_ip_per_minute", "messages_per_source_id_per_minute", "bad_message_blacklist_threshold", "blacklist_permanent", "blacklist_duration_seconds"]
         },
         "log_format_settings": {
             "type": "object",
@@ -48,12 +48,11 @@
         "error_handling": {
             "type": "object",
             "properties": {
-                "missing_required_field": { "type": "string", "enum": ["redirect_to_error_log", "ignore", "reject"] },
                 "extra_field": { "type": "string", "enum": ["truncate", "reject"] },
                 "invalid_message": { "type": "string", "enum": ["redirect_to_error_log", "ignore", "reject"] },
                 "error_log_path": { "type": "string" }
             },
-            "required": ["missing_required_field", "extra_field", "invalid_message", "error_log_path"]
+            "required": ["extra_field", "invalid_message", "error_log_path"]
         },
         "required_field_settings":{
             "type": "object",

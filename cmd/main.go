@@ -2,6 +2,9 @@ package main
 
 import (
 	"LoggingService/config"
+	abusePrevention "LoggingService/internal/abuse_prevention"
+	clienthandling "LoggingService/internal/client_handling"
+	"LoggingService/internal/logwriter"
 	"fmt"
 	"log"
 	"net"
@@ -22,38 +25,34 @@ func main() {
 
 	fmt.Println("config.json loaded.")
 
-	fmt.Println(string(config.ProtocolSettings.IncomingMessageSchema)) //THIS IS JUST TO PREVENT IT GETTING DELETED BY AUTO FORMATTING
+	//Init logwriter
+	handler := clienthandling.New(*config)
 
-	//Make sure our logFile exists/can be written to
+	success, err := logwriter.TestLogfilePaths(config.LogfileSettings.Path, config.ErrorHandling.ErrorLogPath)
+	if !success {
+		fmt.Println(err)
+	}
 
 	//Init abuse prevention system
+	ap := abusePrevention.New(config.ProtocolSettings)
 
 	//Init listener
-
-	portString := fmt.Sprintf(":%d", config.ServerSettings.Port)
-	listener, err := net.Listen(config.ServerSettings.IpAddress, portString)
+	addressString := fmt.Sprintf("%s:%d", config.ServerSettings.IpAddress, config.ServerSettings.Port)
+	listener, err := net.Listen("tcp", addressString)
 	if err != nil {
 		log.Fatal("Error starting TCP listener: ", err)
 	}
 	defer listener.Close()
-	fmt.Printf("TCP listener starting at %s%s", config.ServerSettings.IpAddress, portString)
+	fmt.Printf("TCP listener starting at %s", addressString)
 
-	// for {
-	// 	conn, err := listener.Accept()
-	// 	if err != nil {
-	// 		fmt.Println("Error accepting connection:", err)
-	// 		continue
-	// 	}
+	for {
+		conn, err := listener.Accept()
+		if err != nil {
+			fmt.Println("Error accepting connection:", err)
+			continue
+		}
 
-	// 	//Use goroutine to handle connection
-	// 	//go handleConnection(conn)
-	// }
-
-	//Listen for incoming messages
-
-	//WHEN MESSAGE IS RECEIVED
-	//Check if its valid
-	//Note sender & time via abuse prevention -> make sure it doesn't violate standards
-	//Write to logfile
-
+		//Use goroutine to handle connection
+		go handler.HandleClient(conn, ap)
+	}
 }

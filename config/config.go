@@ -35,8 +35,8 @@ type LogfileSettings struct {
 	Format                  string   `json:"format"`
 	PlaintextFieldDelimiter string   `json:"plaintext_field_delimiter"`
 	PlaintextEntryDelimiter string   `json:"plaintext_entry_delimiter"`
-	MaxSizeKB               int      `json:"max_size_kb"`
-	RotationMinutes         int      `json:"rotation_minutes"`
+	MaxSizeKB               uint32   `json:"max_size_kb"`
+	RotationMinutes         uint32   `json:"rotation_minutes"`
 	ColumnOrder             []string `json:"column_order"`
 }
 
@@ -55,10 +55,9 @@ type ProtocolSettings struct {
 
 // Settings for error handling
 type ErrorSettings struct {
-	MissingRequiredField string `json:"missing_required_field"`
-	ExtraField           string `json:"extra_field"`
-	InvalidMessage       string `json:"invalid_message"`
-	ErrorLogPath         string `json:"error_log_path"`
+	ExtraField     string `json:"extra_field"`
+	InvalidMessage string `json:"invalid_message"`
+	ErrorLogPath   string `json:"error_log_path"`
 }
 
 // Settings for Source IP & Timestamp fields
