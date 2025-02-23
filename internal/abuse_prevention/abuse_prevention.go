@@ -2,7 +2,7 @@ package abuseprevention
 
 import (
 	"LoggingService/config"
-	"LoggingService/internal/abuse_prevention/ratelimiter"
+	ratelimiter "LoggingService/internal/abuse_prevention/rateLimiter"
 	"fmt"
 	"time"
 )
@@ -59,6 +59,7 @@ func (apt *AbusePreventionTracker) IsValidMessage(ipAddress string, sourceId str
 		if clientOffenses >= apt.badMessageThreshold {
 			clientOffenses = 0
 			apt.blacklistedIPs[ipAddress] = uint32(time.Now().Unix())
+			return fmt.Errorf("IP address %s has exceeded its message rate limit too many times. IP address is now banned for %d seconds", ipAddress, apt.blacklistDurationSeconds)
 		}
 		return fmt.Errorf("source_id '%s' has exceeded its message rate limit", sourceId)
 	}
@@ -70,6 +71,7 @@ func (apt *AbusePreventionTracker) IsValidMessage(ipAddress string, sourceId str
 		if clientOffenses >= apt.badMessageThreshold {
 			clientOffenses = 0
 			apt.blacklistedIPs[ipAddress] = uint32(time.Now().Unix())
+			return fmt.Errorf("IP address %s has exceeded its message rate limit too many times. IP address is now banned for %d seconds", ipAddress, apt.blacklistDurationSeconds)
 		}
 		return fmt.Errorf("IP address %s has exceeded its message rate limit", ipAddress)
 	}
@@ -105,7 +107,7 @@ func (apt *AbusePreventionTracker) CheckBlacklist(ipAddress string) error {
 			delete(apt.blacklistedIPs, ipAddress)
 		} else {
 			//Else reject
-			return fmt.Errorf("Ip is blacklisted for %v more seconds", durationBanned-apt.blacklistDurationSeconds)
+			return fmt.Errorf("ip is blacklisted for %v more seconds", durationBanned-apt.blacklistDurationSeconds)
 		}
 	}
 	return nil
