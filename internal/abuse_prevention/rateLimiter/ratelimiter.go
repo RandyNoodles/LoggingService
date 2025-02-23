@@ -8,6 +8,7 @@ type RateLimiter struct {
 	timestampBuffer []uint32 //Ring buffer
 	bufferSize      uint32
 	writePos        uint32
+	clientOffenses  uint32
 }
 
 func New(size uint32) *RateLimiter {
@@ -23,17 +24,18 @@ func New(size uint32) *RateLimiter {
 		timestampBuffer: buf,
 		bufferSize:      size,
 		writePos:        0,
+		clientOffenses:  0,
 	}
 }
 
-func (mrb *RateLimiter) IsRateExceeded() bool {
+func (mrb *RateLimiter) IsRateExceeded() (bool, uint32) {
 	//Get current Unix time in seconds
 	currentSeconds := uint32(time.Now().Unix())
 
 	//Have you sent more than [mrb.bufferSize] messages in the last 60 sec?
 	timeElapsed := currentSeconds - mrb.timestampBuffer[mrb.writePos]
 	if timeElapsed < 60 {
-		return true //If yes, your rate has been exceeded.
+		return true, mrb.clientOffenses //If yes, your rate has been exceeded.
 	}
 
 	//Else, you're good.
@@ -45,5 +47,5 @@ func (mrb *RateLimiter) IsRateExceeded() bool {
 		mrb.writePos = 0
 	}
 
-	return false
+	return false, mrb.clientOffenses
 }

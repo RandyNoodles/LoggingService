@@ -18,6 +18,7 @@ type AbusePreventionTracker struct {
 	sourceIdLimitPerMin      uint32
 	blacklistDurationSeconds uint32
 	isBlacklistPermanent     bool
+	badMessageThreshold      uint32
 }
 
 func New(protocolConfig config.ProtocolSettings) *AbusePreventionTracker {
@@ -31,6 +32,7 @@ func New(protocolConfig config.ProtocolSettings) *AbusePreventionTracker {
 		sourceIdLimitPerMin:      uint32(protocolConfig.SourceMessagesPerMinute),
 		isBlacklistPermanent:     protocolConfig.BlacklistPermanent,
 		blacklistDurationSeconds: uint32(protocolConfig.BlacklistDurationSeconds),
+		badMessageThreshold:      uint32(protocolConfig.BadMessageBlacklistThreshold),
 	}
 
 	//Fill blacklistedIps map IP addresses & the timestamp they were banned.
@@ -41,8 +43,57 @@ func New(protocolConfig config.ProtocolSettings) *AbusePreventionTracker {
 	return newTracker
 }
 
-func (apt *AbusePreventionTracker) IsValidMessage(ipAddress string, source_id string) error {
+func (apt *AbusePreventionTracker) IsValidMessage(ipAddress string, sourceId string) error {
 
+	result := apt.CheckBlacklist(ipAddress)
+	if result != nil {
+		return result
+	}
+
+	apt.RegisterSource(ipAddress, sourceId)
+
+	//Check for rate limit exceeded for source
+	rejected, clientOffenses := apt.sourceRateLimiters[sourceId].IsRateExceeded()
+	if rejected {
+		//If the client has exceeded bad message threshold, ban 'em
+		if clientOffenses >= apt.badMessageThreshold {
+			clientOffenses = 0
+			apt.blacklistedIPs[ipAddress] = uint32(time.Now().Unix())
+		}
+		return fmt.Errorf("source_id '%s' has exceeded its message rate limit", sourceId)
+	}
+
+	//Then check for rate limit of IP
+	rejected, clientOffenses = apt.ipRateLimiters[ipAddress].IsRateExceeded()
+	if rejected {
+		//If the client has exceeded bad message threshold, ban 'em
+		if clientOffenses >= apt.badMessageThreshold {
+			clientOffenses = 0
+			apt.blacklistedIPs[ipAddress] = uint32(time.Now().Unix())
+		}
+		return fmt.Errorf("IP address %s has exceeded its message rate limit", ipAddress)
+	}
+
+	return nil
+}
+
+func (apt *AbusePreventionTracker) RegisterSource(ipAddress string, sourceId string) {
+	//Does the client already exist?
+	//If not, register.
+
+	_, exists := apt.sourceRateLimiters[sourceId]
+	if !exists {
+		apt.sourceRateLimiters[sourceId] = ratelimiter.New(apt.sourceIdLimitPerMin)
+	}
+
+	_, exists = apt.ipRateLimiters[ipAddress]
+	if !exists {
+		apt.ipRateLimiters[ipAddress] = ratelimiter.New(apt.ipLimitPerMin)
+	}
+
+}
+
+func (apt *AbusePreventionTracker) CheckBlacklist(ipAddress string) error {
 	//Are they in the list of blacklisted ips?
 	if timestamp, exists := apt.blacklistedIPs[ipAddress]; exists {
 
@@ -57,18 +108,5 @@ func (apt *AbusePreventionTracker) IsValidMessage(ipAddress string, source_id st
 			return fmt.Errorf("Ip is blacklisted for %v more seconds", durationBanned-apt.blacklistDurationSeconds)
 		}
 	}
-
-	//Check for rate limit exceeded for source
-	rejected := apt.sourceRateLimiters[source_id].IsRateExceeded()
-	if rejected {
-		return fmt.Errorf("source_id '%s' has exceeded its message rate limit", source_id)
-	}
-
-	//Then check for rate limit of IP
-	rejected = apt.ipRateLimiters[ipAddress].IsRateExceeded()
-	if rejected {
-		return fmt.Errorf("IP address %s has exceeded its message rate limit", ipAddress)
-	}
-
 	return nil
 }
