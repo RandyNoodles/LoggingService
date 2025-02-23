@@ -4,8 +4,11 @@ import (
 	"LoggingService/config"
 	ratelimiter "LoggingService/internal/abuse_prevention/rateLimiter"
 	"fmt"
+	"sync"
 	"time"
 )
+
+var abusePreventionMutex sync.Mutex
 
 type AbusePreventionTracker struct {
 	//Rate limiters are ring buffers that can ensure a source doesn't send more than N messages per min
@@ -52,6 +55,9 @@ func New(protocolConfig config.ProtocolSettings) *AbusePreventionTracker {
 }
 
 func (apt *AbusePreventionTracker) CheckSourceRateLimiter(sourceId, ipAddress string) error {
+	abusePreventionMutex.Lock()
+	defer abusePreventionMutex.Unlock()
+
 	rejected, clientOffenses := apt.sourceRateLimiters[sourceId].IsRateExceeded()
 	if rejected {
 		if clientOffenses >= apt.badMessageThreshold {
@@ -65,6 +71,9 @@ func (apt *AbusePreventionTracker) CheckSourceRateLimiter(sourceId, ipAddress st
 }
 
 func (apt *AbusePreventionTracker) CheckIPRateLimiter(ipAddress string) error {
+	abusePreventionMutex.Lock()
+	defer abusePreventionMutex.Unlock()
+
 	rejected, clientOffenses := apt.ipRateLimiters[ipAddress].IsRateExceeded()
 	if rejected {
 		if clientOffenses >= apt.badMessageThreshold {
@@ -78,6 +87,9 @@ func (apt *AbusePreventionTracker) CheckIPRateLimiter(ipAddress string) error {
 }
 
 func (apt *AbusePreventionTracker) RegisterSource(ipAddress string, sourceId string) {
+	abusePreventionMutex.Lock()
+	defer abusePreventionMutex.Unlock()
+
 	//Does the client already exist?
 	//If not, register.
 
@@ -94,6 +106,9 @@ func (apt *AbusePreventionTracker) RegisterSource(ipAddress string, sourceId str
 }
 
 func (apt *AbusePreventionTracker) CheckIPBlacklist(ipAddress string) error {
+	abusePreventionMutex.Lock()
+	defer abusePreventionMutex.Unlock()
+
 	if timestamp, exists := apt.blacklistedIPs[ipAddress]; exists {
 		durationBanned := uint32(time.Now().Unix()) - timestamp
 		if durationBanned >= apt.blacklistDurationSeconds {
@@ -109,6 +124,9 @@ func (apt *AbusePreventionTracker) CheckIPBlacklist(ipAddress string) error {
 }
 
 func (apt *AbusePreventionTracker) CheckSourceIDBlacklist(sourceId string) error {
+	abusePreventionMutex.Lock()
+	defer abusePreventionMutex.Unlock()
+
 	if timestamp, exists := apt.blacklistedSourceIds[sourceId]; exists {
 		durationBanned := uint32(time.Now().Unix()) - timestamp
 		if durationBanned >= apt.blacklistDurationSeconds {
@@ -123,11 +141,13 @@ func (apt *AbusePreventionTracker) CheckSourceIDBlacklist(sourceId string) error
 	return nil
 }
 
-func (apt *AbusePreventionTracker) IncrementBadFormatCount(sourceId string) error {
+func (apt *AbusePreventionTracker) IncrementBadFormatCount(sourceIp string) error {
+	abusePreventionMutex.Lock()
+	defer abusePreventionMutex.Unlock()
 
-	apt.sourceBadFormatCount[sourceId]++
-	if apt.sourceBadFormatCount[sourceId] >= apt.badMessageThreshold {
-		apt.blacklistedSourceIds[sourceId] = uint32(time.Now().Unix())
+	apt.sourceBadFormatCount[sourceIp]++
+	if apt.sourceBadFormatCount[sourceIp] >= apt.badMessageThreshold {
+		apt.blacklistedIPs[sourceIp] = uint32(time.Now().Unix())
 		return fmt.Errorf("source has exceeded it's bad message threshold and will be blacklisted for %d seconds", apt.blacklistDurationSeconds)
 	}
 

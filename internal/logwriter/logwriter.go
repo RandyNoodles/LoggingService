@@ -88,7 +88,7 @@ func TestLogfilePaths(log string, errorLog string) (bool, error) {
 	return true, nil
 }
 
-func WriteErrorToFile(message string, path string) error {
+func (lw *LogWriter) WriteErrorToFile(message string, category string, path string) error {
 	errFileMutex.Lock()
 	defer errFileMutex.Unlock()
 
@@ -100,7 +100,7 @@ func WriteErrorToFile(message string, path string) error {
 	defer f.Close()
 
 	// Format the log entry with a timestamp.
-	logEntry := fmt.Sprintf("%s ERROR: %s\n", time.Now().Format(time.RFC3339), message)
+	logEntry := fmt.Sprintf("ERROR: %s: %s: %s\n", category, time.Now().Format(time.RFC3339), message)
 	if _, err := f.WriteString(logEntry); err != nil {
 		return fmt.Errorf("failed to write error to file: %w", err)
 	}

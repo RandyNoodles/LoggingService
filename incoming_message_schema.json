@@ -6,8 +6,10 @@
     "$comment": "A string property named `source_id` is REQUIRED. If not present, config will be rejected on startup.",
     "properties": {   
         "source_id":{"type":"string", "maxLength": 32, "minLength": 1},
-        "level": { "type": "string", "enum": ["INFO", "ERROR", "WARN"] },
-        "message": { "type": "string", "maxLength": 1024 }
+        "host": {"type":"string", "maxLength": 100},
+        "level": {"type":"number", "maximum": 16, "minimum": 1},
+        "user_id": {"type":"number", "minimum": 1},
+        "details": {"type": "string", "maxLength": 256}
     },
-    "required": ["source_id", "level", "message"]
+    "required": ["source_id", "host", "level", "user_id", "details"]
 }

@@ -9,6 +9,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net"
+	"strings"
 
 	"github.com/xeipuuv/gojsonschema"
 )
@@ -38,12 +39,14 @@ func (handler *ClientHandler) HandleClient(conn net.Conn, abusePrevention *abuse
 	defer conn.Close()
 
 	//Get client IP
-	clientIp := conn.RemoteAddr().String()
+	clientAddress := strings.Split(conn.RemoteAddr().String(), ":")
+
+	clientIp := clientAddress[0]
 
 	//Check if IP is banned
 	result := abusePrevention.CheckIPBlacklist(clientIp)
 	if result != nil {
-		fmt.Println(result)
+		handler.sendResponse(conn, false, result.Error())
 		return
 	}
 
@@ -51,26 +54,35 @@ func (handler *ClientHandler) HandleClient(conn net.Conn, abusePrevention *abuse
 	buffer := make([]byte, 4196)
 	bytesRead, err := conn.Read(buffer)
 	if bytesRead == 0 {
-		fmt.Println(err)
+		handler.logWriter.WriteErrorToFile(err.Error(), "internal:HandleClient():conn.Read()", handler.errlogPath)
+		handler.sendResponse(conn, false, "internal server error")
 		return
 	}
 
 	message := buffer[:bytesRead]
 
-	////Check message against json schema
+	//Check message against json schema
 	err = handler.ValidateMessage(message, handler.schema)
 	if err != nil {
-		fmt.Println(err)
+		//Are they banned now? If so let them know.
+		banMessage := abusePrevention.IncrementBadFormatCount(clientIp)
+		if banMessage != nil {
+			handler.sendResponse(conn, false, banMessage.Error())
+		} else { //Else, just send back the formatting errors
+			handler.sendResponse(conn, false, err.Error())
+		}
+		if handler.errorSettings.InvalidMessage == "redirect_to_error_log" {
+			handler.logWriter.WriteErrorToFile(err.Error(), "invalid message format", handler.errlogPath)
+		}
 		return
-		//LOCK () Increment blacklist
-		//If redirect_to_error_log -> log error
 	}
 
 	//Parse json into map
 	var parsedMessage map[string]interface{}
 	err = json.Unmarshal(message, &parsedMessage)
 	if err != nil {
-		fmt.Println(err)
+		handler.logWriter.WriteErrorToFile(err.Error(), "internal:HandleClient():json.Unmarshal()", handler.errlogPath)
+		handler.sendResponse(conn, false, "internal server error")
 		return
 	}
 
@@ -78,25 +90,37 @@ func (handler *ClientHandler) HandleClient(conn net.Conn, abusePrevention *abuse
 	clientId, _ := parsedMessage["source_id"].(string)
 	result = abusePrevention.CheckSourceIDBlacklist(clientId)
 	if result != nil {
-		fmt.Println(result)
+		handler.sendResponse(conn, false, result.Error())
+		return
 	}
 
 	//Format log
 	formattedLog, err := handler.logWriter.FormatLogEntry(parsedMessage, clientIp)
 	if err != nil {
-		fmt.Println(err)
+		handler.logWriter.WriteErrorToFile(err.Error(), "internal: internal:HandleClient():FormatLogEntry()", handler.errlogPath)
+		handler.sendResponse(conn, false, "internal server error")
+		return
 	}
 
 	//Write log to file
 	err = handler.logWriter.WriteLogToFile(formattedLog, handler.logPath)
 	if err != nil {
-		fmt.Println(err)
+		handler.logWriter.WriteErrorToFile(err.Error(), "internal:HandleClient():WriteLogToFile()", handler.errlogPath)
+		handler.sendResponse(conn, false, "internal server error")
+		return
 	}
 
-	var response []byte = []byte(`{"success": true, "message": "test 1-2"}`)
-	conn.Write(response)
+	//Send "Success" response to client
+	response := []byte(`{"success": true, "message": "log received"}`)
+
+	bytesWritten, err := conn.Write(response)
+	if bytesWritten == 0 || err != nil {
+		errorMessage := fmt.Sprintf("Unable to respond to client on connection: %s", conn.RemoteAddr())
+		handler.logWriter.WriteErrorToFile(errorMessage, "internal:sendResponse():conn.Write()", handler.errlogPath)
+	}
 }
 
+// Validate the incoming message against the json schema referenced in config.json
 func (handler *ClientHandler) ValidateMessage(data []byte, schema []byte) error {
 
 	schemaLoader := gojsonschema.NewStringLoader(string(schema))
@@ -116,4 +140,16 @@ func (handler *ClientHandler) ValidateMessage(data []byte, schema []byte) error 
 		return fmt.Errorf("message failed to validate against schema:\n%s", errorMessages)
 	}
 	return nil
+}
+
+func (handler *ClientHandler) sendResponse(conn net.Conn, success bool, message string) {
+
+	response := fmt.Sprintf("{\"success\": %v, \"message\": \"%s\"}", success, message)
+
+	bytesWritten, err := conn.Write([]byte(response))
+
+	if bytesWritten == 0 || err != nil {
+		errorMessage := fmt.Sprintf("Unable to respond to client on connection: %s", conn.RemoteAddr())
+		handler.logWriter.WriteErrorToFile(errorMessage, "internal:sendResponse():conn.Write()", handler.errlogPath)
+	}
 }

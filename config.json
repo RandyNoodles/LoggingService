@@ -5,23 +5,23 @@
     },
     "logfile_settings": {
         "path_type": "relative",
-        "path": "./logs.txt",
-        "format": "json",
-        "plaintext_field_delimiter": "|",
+        "path": "../logs.txt",
+        "format": "plaintext",
+        "plaintext_field_delimiter": " <|> ",
         "plaintext_entry_delimiter": "\n",
         "max_size_kb": 5000,  
         "rotation_minutes": 10,
-        "column_order": ["timestamp", "source_id", "level", "message"]
+        "column_order": ["timestamp", "source_ip", "source_id", "host", "level", "user_id", "details"]
     },
     "protocol_settings": {
         "incoming_json_schema": "../incoming_message_schema.json",
         "messages_per_ip_per_minute": 20,
         "messages_per_source_id_per_minute": 10,
         "bad_message_blacklist_threshold": 5,
-        "blacklisted_ips": [],
-        "blacklisted_source_ids": [],
+        "blacklisted_ips": ["127.0.0.1"],
+        "blacklisted_source_ids": [ "m9Qw8" ],
         "blacklist_permanent": false,
-        "blacklist_duration_seconds": 60
+        "blacklist_duration_seconds": 20
     },
     "required_field_settings":{
         "timestamp_format":"UnixDate",
@@ -31,6 +31,6 @@
     "error_handling": {
         "extra_field": "truncate",
         "invalid_message": "redirect_to_error_log",
-        "error_log_path": "./errors.txt"
+        "error_log_path": "../errors.txt"
     }
 }

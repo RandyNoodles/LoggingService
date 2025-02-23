@@ -15,7 +15,7 @@
                 "path_type": { "type": "string", "enum": ["relative", "absolute"] },
                 "path": { "type": "string" },
                 "format": { "type": "string", "enum": ["json", "plaintext"] },
-                "plaintext_field_delimiter": {"type": "string", "maxLength": 1},
+                "plaintext_field_delimiter": {"type": "string", "maxLength": 25},
                 "plaintext_entry_delimiter": {"type": "string"},
                 "max_size_kb": { "type": "integer", "minimum": 5000, "maximum": 65536 },
                 "rotation_minutes": { "type": "integer", "minimum": 0 },
