@@ -48,7 +48,7 @@ type ProtocolSettings struct {
 	BadMessageBlacklistThreshold int      `json:"bad_message_blacklist_threshold"`
 	BlacklistedIPs               []string `json:"blacklisted_ips"`
 	BlacklistPermanent           bool     `json:"blacklist_permanent"`
-	BlacklistDurationMinutes     int      `json:"blacklist_duration_minutes"`
+	BlacklistDurationSeconds     int      `json:"blacklist_duration_seconds"`
 	IncomingMessageSchema        []byte
 }
 
@@ -105,7 +105,7 @@ func ParseConfigFile() (*Config, error) {
 	}
 
 	//Parse incoming_message_schema.json
-	err = config.ProtocolSettings.parseIncomingMessageSchema()
+	err = config.parseIncomingMessageSchema()
 	if err != nil {
 		return nil, err
 	}
@@ -114,41 +114,58 @@ func ParseConfigFile() (*Config, error) {
 }
 
 // Parse incoming_message_schema.json found in ProtocolSettings
-func (obj *ProtocolSettings) parseIncomingMessageSchema() error {
+func (obj *Config) parseIncomingMessageSchema() error {
 
-	data, err := os.ReadFile(obj.IncomingMessageSchemaPath)
+	data, err := os.ReadFile(obj.ProtocolSettings.IncomingMessageSchemaPath)
 
 	if err != nil {
 		return err
 	}
 
-	err = checkForSourceIdKey(data)
-	if err != nil {
-		return err
-	}
-
-	obj.IncomingMessageSchema = data
-	return nil
-}
-
-// Ensure "source_id" key is present within "properties" of incoming_message_schema.json
-func checkForSourceIdKey(data []byte) error {
+	//Load incoming_message_schema to an object for validation.
 	var schema map[string]interface{}
 	if err := json.Unmarshal(data, &schema); err != nil {
 		return err
 	}
+
+	//Ensure "properties" object is present & populated.
 	props, ok := schema["properties"].(map[string]interface{})
 	if !ok {
 		return errors.New(`"properties" key not found in the incoming_message_schema.json file`)
 	}
-
 	if len(props) == 0 {
 		return errors.New(`"properties" object in incoming_message_schema.json file cannot be empty. At minimum "source_id" is required`)
 	}
 
+	// Ensure "source_id" key is present within "properties" of incoming_message_schema.json
 	if _, exists := props["source_id"]; !exists {
 		return errors.New(`"source_id" property must be present in the incoming_message_schema.json file`)
 	}
 
+	//Ensure all columns in column_ordering are found in the properties of incoming_message_schema.json
+	err = validateColumnOrdering(obj.LogfileSettings.ColumnOrder, props)
+	if err != nil {
+		return err
+	}
+
+	//Looks good, save the incoming_message_schema.
+	obj.ProtocolSettings.IncomingMessageSchema = data
+	return nil
+}
+
+// Ensure all columns in column_ordering (config.json) exist in the incoming_message_schema.json
+// Columns "timestamp" and "source_ip" are also allowed.
+func validateColumnOrdering(columnOrder []string, props map[string]interface{}) error {
+
+	for _, col := range columnOrder {
+
+		if _, exists := props[col]; !exists {
+			if col == "timestamp" || col == "source_ip" {
+				continue
+			}
+
+			return fmt.Errorf("column_order property in 'config.json' contains unknown property: %s", col)
+		}
+	}
 	return nil
 }

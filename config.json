@@ -11,7 +11,7 @@
         "plaintext_entry_delimiter": "\n",
         "max_size_kb": 5000,  
         "rotation_minutes": 10,
-        "column_order": ["timestamp", "source_id", ""]
+        "column_order": ["timestamp", "source_id", "level", "message"]
     },
     "protocol_settings": {
         "incoming_json_schema": "../incoming_message_schema.json",
@@ -20,7 +20,7 @@
         "bad_message_blacklist_threshold": 5,
         "blacklisted_ips": [],
         "blacklist_permanent": false,
-        "blacklist_duration_minutes": 60
+        "blacklist_duration_seconds": 60
     },
     "required_field_settings":{
         "timestamp_format":"UnixDate",

@@ -4,10 +4,10 @@
     "description": "All fields for the logging service can be configured here. For more detailed guidance see README.md",
     "type": "object",
     "$comment": "A string property named `source_id` is REQUIRED. If not present, config will be rejected on startup.",
-    "properties": {
+    "properties": {   
         "source_id":{"type":"string", "maxLength": 32, "minLength": 1},
         "level": { "type": "string", "enum": ["INFO", "ERROR", "WARN"] },
         "message": { "type": "string", "maxLength": 1024 }
     },
-    "required": ["timestamp", "source_id", "level", "message"]
+    "required": ["source_id", "level", "message"]
 }

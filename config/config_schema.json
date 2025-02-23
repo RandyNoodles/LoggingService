@@ -32,7 +32,7 @@
                 "bad_message_blacklist_threshold": { "type": "integer", "minimum": 1 },
                 "blacklisted_ips": { "type": "array", "items": { "type": "string", "format": "ipv4" } },
                 "blacklist_permanent": { "type": "boolean" },
-                "blacklist_duration_minutes": { "type": "integer", "minimum": 1 }
+                "blacklist_duration_seconds": { "type": "integer", "minimum": 1 }
             },
             "required": ["incoming_json_schema", "messages_per_ip_per_minute", "messages_per_source_id_per_minute", "bad_message_blacklist_threshold", "blacklist_permanent", "blacklist_duration_minutes"]
         },
