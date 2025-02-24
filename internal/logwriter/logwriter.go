@@ -158,11 +158,19 @@ func (lw *LogWriter) FormatLogEntry(log map[string]interface{}, clientIp string)
 
 	//If simple JSON formatting, just re-marshal the map with the new fields added.
 	if lw.format == Json {
-		formattedLog, err := json.Marshal(log)
+		filteredLog := make(map[string]interface{})
+		for _, column := range lw.columnOrder {
+			if value, exists := log[column]; exists {
+				filteredLog[column] = value
+			}
+		}
+
+		formattedLog, err := json.Marshal(filteredLog)
+		finalLog := fmt.Sprintf("%s%s", formattedLog, ",\n")
 		if err != nil {
 			return "", err
 		}
-		return string(formattedLog), nil
+		return string(finalLog), nil
 	}
 
 	//Else, format it using the delimiters

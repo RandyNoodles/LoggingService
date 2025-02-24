@@ -1,22 +1,22 @@
 {
     "server_settings":{
-        "ip":"192.168.86.55",
+        "ip":"10.250.126.172",
         "port":13000
     },
     "logfile_settings": {
         "path": "../logs.txt",
-        "format": "plaintext",
+        "format": "json",
         "plaintext_field_delimiter": " <|> ",
         "plaintext_entry_delimiter": "\n",
-        "column_order": ["timestamp", "source_ip", "host", "level", "user_id", "details"],
+        "column_order": ["timestamp", "source_ip", "level", "message"],
         "timestamp_format":"Kitchen"
     },
     "protocol_settings": {
-        "incoming_json_schema": "../incoming_message_schema.json",
-        "messages_per_ip_per_minute": 5,
+        "incoming_json_schema": "../incoming_message_schema3.json",
+        "messages_per_ip_per_minute": 10,
         "bad_message_blacklist_threshold": 5,
         "blacklisted_ips": [],
-        "blacklist_permanent": true,
+        "blacklist_permanent": false,
         "blacklist_duration_seconds": 10
     },
     "error_handling": {
