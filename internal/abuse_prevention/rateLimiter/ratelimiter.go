@@ -1,3 +1,24 @@
+/*
+* FILE : 			ratelimiter.go
+* PROJECT : 		SENG2040 - Assignment #3
+* PROGRAMMER : 		Woongbeen Lee, Joshua Rice
+* FIRST VERSION : 	2025-02-22
+* DESCRIPTION :
+			RateLimiter is basically a simplified ring buffer that tracks
+		how many messages have been received by a source in the last minute.
+
+		- Ring buffer is allocated to size "num_messages_per_ip_per_min" from config.json
+
+		When IsRateExceeded() is used:
+		- Current timestamp is compared to the next available spot in the ring
+			- If time difference < 60s, message is rejected and the offense counter is incremented
+			- If >= 60s, timestamp is recorded and message is allowed
+
+		All unix timestamps are truncated from uint64 --> uint32.
+		- Saves memory at scale
+		- Still allows 80 more years of UNIX time
+*/
+
 package ratelimiter
 
 import (
@@ -11,10 +32,10 @@ type RateLimiter struct {
 	clientOffenses  uint32
 }
 
-func New(size uint32) *RateLimiter {
+func New(msgPerMin uint32) *RateLimiter {
 
 	//Create buffer & initialize every value to UINT32_MAX
-	buf := make([]uint32, size)
+	buf := make([]uint32, msgPerMin)
 	maxUint32 := ^uint32(0)
 	for i := range buf {
 		buf[i] = maxUint32
@@ -22,7 +43,7 @@ func New(size uint32) *RateLimiter {
 
 	return &RateLimiter{
 		timestampBuffer: buf,
-		bufferSize:      size,
+		bufferSize:      msgPerMin,
 		writePos:        0,
 		clientOffenses:  0,
 	}

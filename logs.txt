@@ -1,220 +1,60 @@
-Sun Feb 23 22:57:45 EST 2025 <|> 127.0.0.1 <|> server1.mycompany.com <|> 8 <|> 42 <|> User logged in from mobile device. <|> 
-Sun Feb 23 22:57:47 EST 2025 <|> 127.0.0.1 <|> host42.company.org <|> 1 <|> 500 <|> Initial connection established, authentication pending. <|> 
-Sun Feb 23 22:59:55 EST 2025 <|> 127.0.0.1 <|> cache01.service <|> 2 <|> 76 <|> Cache cleared for session recovery. <|> 
-Sun Feb 23 22:59:57 EST 2025 <|> 127.0.0.1 <|> host42.company.org <|> 1 <|> 500 <|> Initial connection established, authentication pending. <|> 
-Sun Feb 23 22:59:59 EST 2025 <|> 127.0.0.1 <|> dbserver.local <|> 3 <|> 250 <|> Backup process completed with warnings. <|> 
-Sun Feb 23 23:00:01 EST 2025 <|> 127.0.0.1 <|> host42.company.org <|> 1 <|> 500 <|> Initial connection established, authentication pending. <|> 
-Sun Feb 23 23:00:02 EST 2025 <|> 127.0.0.1 <|> loadbalancer.example.com <|> 9 <|> 1001 <|> Service responded in under 50ms. <|> 
-Sun Feb 23 23:01:00 EST 2025 <|> 127.0.0.1 <|> dbserver.local <|> 3 <|> 250 <|> Backup process completed with warnings. <|> 
-Sun Feb 23 23:01:01 EST 2025 <|> 127.0.0.1 <|> loadbalancer.example.com <|> 9 <|> 1001 <|> Service responded in under 50ms. <|> 
-Sun Feb 23 23:01:01 EST 2025 <|> 127.0.0.1 <|> gateway.server.net <|> 11 <|> 23 <|> Processed transaction for order #12345. <|> 
-Sun Feb 23 23:01:02 EST 2025 <|> 127.0.0.1 <|> server1.mycompany.com <|> 8 <|> 42 <|> User logged in from mobile device. <|> 
-Sun Feb 23 23:01:02 EST 2025 <|> 127.0.0.1 <|> gateway.server.net <|> 11 <|> 23 <|> Processed transaction for order #12345. <|> 
-Sun Feb 23 23:01:38 EST 2025 <|> 127.0.0.1 <|> cache01.service <|> 2 <|> 76 <|> Cache cleared for session recovery. <|> 
-Sun Feb 23 23:01:45 EST 2025 <|> 127.0.0.1 <|> backend2.local <|> 16 <|> 999 <|> Database update encountered minor delay. <|> 
-Sun Feb 23 23:01:53 EST 2025 <|> 127.0.0.1 <|> mailserver.example.net <|> 12 <|> 100 <|> Sent notification email to user. <|> 
-Sun Feb 23 23:01:58 EST 2025 <|> 127.0.0.1 <|> loadbalancer.example.com <|> 9 <|> 1001 <|> Service responded in under 50ms. <|> 
-Sun Feb 23 23:02:32 EST 2025 <|> 127.0.0.1 <|> mailserver.example.net <|> 12 <|> 100 <|> Sent notification email to user. <|> 
-Sun Feb 23 23:03:33 EST 2025 <|> 127.0.0.1 <|> loadbalancer.example.com <|> 9 <|> 1001 <|> Service responded in under 50ms. <|> 
-Sun Feb 23 23:03:50 EST 2025 <|> 127.0.0.1 <|> api.service.net <|> 4 <|> 15 <|> Fetched user profile successfully. <|> 
-Sun Feb 23 23:03:53 EST 2025 <|> 127.0.0.1 <|> loadbalancer.example.com <|> 9 <|> 1001 <|> Service responded in under 50ms. <|> 
-Sun Feb 23 23:03:55 EST 2025 <|> 127.0.0.1 <|> server1.mycompany.com <|> 8 <|> 42 <|> User logged in from mobile device. <|> 
-Sun Feb 23 23:03:56 EST 2025 <|> 127.0.0.1 <|> loadbalancer.example.com <|> 9 <|> 1001 <|> Service responded in under 50ms. <|> 
-Sun Feb 23 23:04:31 EST 2025 <|> 127.0.0.1 <|> api.service.net <|> 4 <|> 15 <|> Fetched user profile successfully. <|> 
-Sun Feb 23 23:06:17 EST 2025 <|> 127.0.0.1 <|> webapp.internal <|> 6 <|> 37 <|> Error logging module failed to record event. <|> 
-Sun Feb 23 23:06:23 EST 2025 <|> 127.0.0.1 <|> host42.company.org <|> 1 <|> 500 <|> Initial connection established, authentication pending. <|> 
-Sun Feb 23 23:06:25 EST 2025 <|> 127.0.0.1 <|> webapp.internal <|> 6 <|> 37 <|> Error logging module failed to record event. <|> 
-Sun Feb 23 23:06:26 EST 2025 <|> 127.0.0.1 <|> mailserver.example.net <|> 12 <|> 100 <|> Sent notification email to user. <|> 
-Sun Feb 23 23:06:48 EST 2025 <|> 127.0.0.1 <|> mailserver.example.net <|> 12 <|> 100 <|> Sent notification email to user. <|> 
-Sun Feb 23 23:07:05 EST 2025 <|> 127.0.0.1 <|> host42.company.org <|> 1 <|> 500 <|> Initial connection established, authentication pending. <|> 
-Sun Feb 23 23:08:33 EST 2025 <|> 127.0.0.1 <|> api.service.net <|> 4 <|> 15 <|> Fetched user profile successfully. <|> 
-Sun Feb 23 23:08:33 EST 2025 <|> 127.0.0.1 <|> mailserver.example.net <|> 12 <|> 100 <|> Sent notification email to user. <|> 
-Sun Feb 23 23:08:34 EST 2025 <|> 127.0.0.1 <|> dbserver.local <|> 3 <|> 250 <|> Backup process completed with warnings. <|> 
-Sun Feb 23 23:08:34 EST 2025 <|> 127.0.0.1 <|> host42.company.org <|> 1 <|> 500 <|> Initial connection established, authentication pending. <|> 
-Sun Feb 23 23:08:35 EST 2025 <|> 127.0.0.1 <|> server1.mycompany.com <|> 8 <|> 42 <|> User logged in from mobile device. <|> 
-Sun Feb 23 23:09:35 EST 2025 <|> 127.0.0.1 <|> mailserver.example.net <|> 12 <|> 100 <|> Sent notification email to user. <|> 
-Sun Feb 23 23:09:35 EST 2025 <|> 127.0.0.1 <|> server1.mycompany.com <|> 8 <|> 42 <|> User logged in from mobile device. <|> 
-Sun Feb 23 23:09:36 EST 2025 <|> 127.0.0.1 <|> dbserver.local <|> 3 <|> 250 <|> Backup process completed with warnings. <|> 
-Sun Feb 23 23:09:36 EST 2025 <|> 127.0.0.1 <|> server1.mycompany.com <|> 8 <|> 42 <|> User logged in from mobile device. <|> 
-Sun Feb 23 23:09:37 EST 2025 <|> 127.0.0.1 <|> dbserver.local <|> 3 <|> 250 <|> Backup process completed with warnings. <|> 
-Sun Feb 23 23:17:11 EST 2025 <|> 192.168.86.34 <|> cache01.service <|> 2 <|> 76 <|> Cache cleared for session recovery. <|> 
-Sun Feb 23 23:17:12 EST 2025 <|> 192.168.86.34 <|> backend2.local <|> 16 <|> 999 <|> Database update encountered minor delay. <|> 
-Sun Feb 23 23:17:12 EST 2025 <|> 192.168.86.34 <|> loadbalancer.example.com <|> 9 <|> 1001 <|> Service responded in under 50ms. <|> 
-Sun Feb 23 23:17:13 EST 2025 <|> 192.168.86.34 <|> backend2.local <|> 16 <|> 999 <|> Database update encountered minor delay. <|> 
-Sun Feb 23 23:17:13 EST 2025 <|> 192.168.86.34 <|> cache01.service <|> 2 <|> 76 <|> Cache cleared for session recovery. <|> 
-Sun Feb 23 23:17:43 EST 2025 <|> 192.168.86.55 <|> server1.mycompany.com <|> 8 <|> 42 <|> User logged in from mobile device. <|> 
-Sun Feb 23 23:17:43 EST 2025 <|> 192.168.86.55 <|> gateway.server.net <|> 11 <|> 23 <|> Processed transaction for order #12345. <|> 
-Sun Feb 23 23:17:44 EST 2025 <|> 192.168.86.55 <|> webapp.internal <|> 6 <|> 37 <|> Error logging module failed to record event. <|> 
-Sun Feb 23 23:17:44 EST 2025 <|> 192.168.86.55 <|> api.service.net <|> 4 <|> 15 <|> Fetched user profile successfully. <|> 
-Sun Feb 23 23:17:45 EST 2025 <|> 192.168.86.55 <|> backend2.local <|> 16 <|> 999 <|> Database update encountered minor delay. <|> 
-Sun Feb 23 23:23:20 EST 2025 <|> 192.168.86.55 <|> server1.mycompany.com <|> 8 <|> 42 <|> User logged in from mobile device. <|> 
-Sun Feb 23 23:23:20 EST 2025 <|> 192.168.86.55 <|> host42.company.org <|> 1 <|> 500 <|> Initial connection established, authentication pending. <|> 
-Sun Feb 23 23:23:21 EST 2025 <|> 192.168.86.55 <|> webapp.internal <|> 6 <|> 37 <|> Error logging module failed to record event. <|> 
-Sun Feb 23 23:23:21 EST 2025 <|> 192.168.86.55 <|> gateway.server.net <|> 11 <|> 23 <|> Processed transaction for order #12345. <|> 
-Sun Feb 23 23:23:22 EST 2025 <|> 192.168.86.55 <|> loadbalancer.example.com <|> 9 <|> 1001 <|> Service responded in under 50ms. <|> 
-Sun Feb 23 23:23:34 EST 2025 <|> 192.168.86.55 <|> loadbalancer.example.com <|> 9 <|> 1001 <|> Service responded in under 50ms. <|> 
-Sun Feb 23 23:23:34 EST 2025 <|> 192.168.86.55 <|> webapp.internal <|> 6 <|> 37 <|> Error logging module failed to record event. <|> 
-Sun Feb 23 23:23:35 EST 2025 <|> 192.168.86.55 <|> webapp.internal <|> 6 <|> 37 <|> Error logging module failed to record event. <|> 
-Sun Feb 23 23:23:35 EST 2025 <|> 192.168.86.55 <|> api.service.net <|> 4 <|> 15 <|> Fetched user profile successfully. <|> 
-Sun Feb 23 23:23:36 EST 2025 <|> 192.168.86.55 <|> server1.mycompany.com <|> 8 <|> 42 <|> User logged in from mobile device. <|> 
-Sun Feb 23 23:23:48 EST 2025 <|> 192.168.86.55 <|> mailserver.example.net <|> 12 <|> 100 <|> Sent notification email to user. <|> 
-Sun Feb 23 23:23:48 EST 2025 <|> 192.168.86.55 <|> mailserver.example.net <|> 12 <|> 100 <|> Sent notification email to user. <|> 
-Sun Feb 23 23:23:49 EST 2025 <|> 192.168.86.55 <|> host42.company.org <|> 1 <|> 500 <|> Initial connection established, authentication pending. <|> 
-Sun Feb 23 23:23:49 EST 2025 <|> 192.168.86.55 <|> api.service.net <|> 4 <|> 15 <|> Fetched user profile successfully. <|> 
-Sun Feb 23 23:23:50 EST 2025 <|> 192.168.86.55 <|> cache01.service <|> 2 <|> 76 <|> Cache cleared for session recovery. <|> 
-Sun Feb 23 23:27:25 EST 2025 <|> 192.168.86.55 <|> mailserver.example.net <|> 12 <|> 100 <|> Sent notification email to user. <|> 
-Sun Feb 23 23:27:26 EST 2025 <|> 192.168.86.55 <|> host42.company.org <|> 1 <|> 500 <|> Initial connection established, authentication pending. <|> 
-Sun Feb 23 23:27:26 EST 2025 <|> 192.168.86.55 <|> api.service.net <|> 4 <|> 15 <|> Fetched user profile successfully. <|> 
-Sun Feb 23 23:27:27 EST 2025 <|> 192.168.86.55 <|> webapp.internal <|> 6 <|> 37 <|> Error logging module failed to record event. <|> 
-Sun Feb 23 23:27:27 EST 2025 <|> 192.168.86.55 <|> host42.company.org <|> 1 <|> 500 <|> Initial connection established, authentication pending. <|> 
-Mon Feb 24 00:04:17 EST 2025 <|> 192.168.86.55 <|> backend2.local <|> 16 <|> 999 <|> Database update encountered minor delay. <|> 
-Mon Feb 24 00:04:17 EST 2025 <|> 192.168.86.55 <|> dbserver.local <|> 3 <|> 250 <|> Backup process completed with warnings. <|> 
-Mon Feb 24 00:04:17 EST 2025 <|> 192.168.86.55 <|> server1.mycompany.com <|> 8 <|> 42 <|> User logged in from mobile device. <|> 
-Mon Feb 24 00:04:18 EST 2025 <|> 192.168.86.55 <|> host42.company.org <|> 1 <|> 500 <|> Initial connection established, authentication pending. <|> 
-Mon Feb 24 00:04:18 EST 2025 <|> 192.168.86.55 <|> gateway.server.net <|> 11 <|> 23 <|> Processed transaction for order #12345. <|> 
-Mon Feb 24 00:04:19 EST 2025 <|> 192.168.86.55 <|> host42.company.org <|> 1 <|> 500 <|> Initial connection established, authentication pending. <|> 
-Mon Feb 24 00:04:19 EST 2025 <|> 192.168.86.55 <|> loadbalancer.example.com <|> 9 <|> 1001 <|> Service responded in under 50ms. <|> 
-Mon Feb 24 00:04:20 EST 2025 <|> 192.168.86.55 <|> backend2.local <|> 16 <|> 999 <|> Database update encountered minor delay. <|> 
-Mon Feb 24 00:04:20 EST 2025 <|> 192.168.86.55 <|> host42.company.org <|> 1 <|> 500 <|> Initial connection established, authentication pending. <|> 
-Mon Feb 24 00:04:21 EST 2025 <|> 192.168.86.55 <|> host42.company.org <|> 1 <|> 500 <|> Initial connection established, authentication pending. <|> 
-Mon Feb 24 00:04:21 EST 2025 <|> 192.168.86.55 <|> host42.company.org <|> 1 <|> 500 <|> Initial connection established, authentication pending. <|> 
-Mon Feb 24 00:04:22 EST 2025 <|> 192.168.86.55 <|> cache01.service <|> 2 <|> 76 <|> Cache cleared for session recovery. <|> 
-Mon Feb 24 00:04:22 EST 2025 <|> 192.168.86.55 <|> backend2.local <|> 16 <|> 999 <|> Database update encountered minor delay. <|> 
-Mon Feb 24 00:04:23 EST 2025 <|> 192.168.86.55 <|> dbserver.local <|> 3 <|> 250 <|> Backup process completed with warnings. <|> 
-Mon Feb 24 00:04:23 EST 2025 <|> 192.168.86.55 <|> mailserver.example.net <|> 12 <|> 100 <|> Sent notification email to user. <|> 
-Mon Feb 24 00:04:24 EST 2025 <|> 192.168.86.55 <|> host42.company.org <|> 1 <|> 500 <|> Initial connection established, authentication pending. <|> 
-Mon Feb 24 00:04:24 EST 2025 <|> 192.168.86.55 <|> backend2.local <|> 16 <|> 999 <|> Database update encountered minor delay. <|> 
-Mon Feb 24 00:04:25 EST 2025 <|> 192.168.86.55 <|> host42.company.org <|> 1 <|> 500 <|> Initial connection established, authentication pending. <|> 
-Mon Feb 24 00:04:25 EST 2025 <|> 192.168.86.55 <|> gateway.server.net <|> 11 <|> 23 <|> Processed transaction for order #12345. <|> 
-Mon Feb 24 00:04:26 EST 2025 <|> 192.168.86.55 <|> loadbalancer.example.com <|> 9 <|> 1001 <|> Service responded in under 50ms. <|> 
-Mon Feb 24 00:04:26 EST 2025 <|> 192.168.86.55 <|> mailserver.example.net <|> 12 <|> 100 <|> Sent notification email to user. <|> 
-Mon Feb 24 00:04:27 EST 2025 <|> 192.168.86.55 <|> server1.mycompany.com <|> 8 <|> 42 <|> User logged in from mobile device. <|> 
-Mon Feb 24 00:04:27 EST 2025 <|> 192.168.86.55 <|> loadbalancer.example.com <|> 9 <|> 1001 <|> Service responded in under 50ms. <|> 
-Mon Feb 24 00:04:28 EST 2025 <|> 192.168.86.55 <|> gateway.server.net <|> 11 <|> 23 <|> Processed transaction for order #12345. <|> 
-Mon Feb 24 00:04:28 EST 2025 <|> 192.168.86.55 <|> backend2.local <|> 16 <|> 999 <|> Database update encountered minor delay. <|> 
-Mon Feb 24 00:04:29 EST 2025 <|> 192.168.86.55 <|> server1.mycompany.com <|> 8 <|> 42 <|> User logged in from mobile device. <|> 
-Mon Feb 24 00:04:29 EST 2025 <|> 192.168.86.55 <|> gateway.server.net <|> 11 <|> 23 <|> Processed transaction for order #12345. <|> 
-Mon Feb 24 00:04:30 EST 2025 <|> 192.168.86.55 <|> mailserver.example.net <|> 12 <|> 100 <|> Sent notification email to user. <|> 
-Mon Feb 24 00:04:30 EST 2025 <|> 192.168.86.55 <|> webapp.internal <|> 6 <|> 37 <|> Error logging module failed to record event. <|> 
-Mon Feb 24 00:04:31 EST 2025 <|> 192.168.86.55 <|> mailserver.example.net <|> 12 <|> 100 <|> Sent notification email to user. <|> 
-Mon Feb 24 00:04:31 EST 2025 <|> 192.168.86.55 <|> loadbalancer.example.com <|> 9 <|> 1001 <|> Service responded in under 50ms. <|> 
-Mon Feb 24 00:04:32 EST 2025 <|> 192.168.86.55 <|> backend2.local <|> 16 <|> 999 <|> Database update encountered minor delay. <|> 
-Mon Feb 24 00:04:32 EST 2025 <|> 192.168.86.55 <|> server1.mycompany.com <|> 8 <|> 42 <|> User logged in from mobile device. <|> 
-Mon Feb 24 00:04:33 EST 2025 <|> 192.168.86.55 <|> host42.company.org <|> 1 <|> 500 <|> Initial connection established, authentication pending. <|> 
-Mon Feb 24 00:04:33 EST 2025 <|> 192.168.86.55 <|> webapp.internal <|> 6 <|> 37 <|> Error logging module failed to record event. <|> 
-Mon Feb 24 00:04:34 EST 2025 <|> 192.168.86.55 <|> server1.mycompany.com <|> 8 <|> 42 <|> User logged in from mobile device. <|> 
-Mon Feb 24 00:04:34 EST 2025 <|> 192.168.86.55 <|> webapp.internal <|> 6 <|> 37 <|> Error logging module failed to record event. <|> 
-Mon Feb 24 00:04:35 EST 2025 <|> 192.168.86.55 <|> dbserver.local <|> 3 <|> 250 <|> Backup process completed with warnings. <|> 
-Mon Feb 24 00:04:35 EST 2025 <|> 192.168.86.55 <|> mailserver.example.net <|> 12 <|> 100 <|> Sent notification email to user. <|> 
-Mon Feb 24 00:04:36 EST 2025 <|> 192.168.86.55 <|> mailserver.example.net <|> 12 <|> 100 <|> Sent notification email to user. <|> 
-Mon Feb 24 00:04:36 EST 2025 <|> 192.168.86.55 <|> cache01.service <|> 2 <|> 76 <|> Cache cleared for session recovery. <|> 
-Mon Feb 24 00:04:37 EST 2025 <|> 192.168.86.55 <|> mailserver.example.net <|> 12 <|> 100 <|> Sent notification email to user. <|> 
-Mon Feb 24 00:04:37 EST 2025 <|> 192.168.86.55 <|> server1.mycompany.com <|> 8 <|> 42 <|> User logged in from mobile device. <|> 
-Mon Feb 24 00:04:38 EST 2025 <|> 192.168.86.55 <|> api.service.net <|> 4 <|> 15 <|> Fetched user profile successfully. <|> 
-Mon Feb 24 00:04:38 EST 2025 <|> 192.168.86.55 <|> api.service.net <|> 4 <|> 15 <|> Fetched user profile successfully. <|> 
-Mon Feb 24 00:04:39 EST 2025 <|> 192.168.86.55 <|> host42.company.org <|> 1 <|> 500 <|> Initial connection established, authentication pending. <|> 
-Mon Feb 24 00:04:39 EST 2025 <|> 192.168.86.55 <|> webapp.internal <|> 6 <|> 37 <|> Error logging module failed to record event. <|> 
-Mon Feb 24 00:04:40 EST 2025 <|> 192.168.86.55 <|> server1.mycompany.com <|> 8 <|> 42 <|> User logged in from mobile device. <|> 
-Mon Feb 24 00:04:40 EST 2025 <|> 192.168.86.55 <|> api.service.net <|> 4 <|> 15 <|> Fetched user profile successfully. <|> 
-Mon Feb 24 00:04:41 EST 2025 <|> 192.168.86.55 <|> webapp.internal <|> 6 <|> 37 <|> Error logging module failed to record event. <|> 
-Mon Feb 24 00:04:41 EST 2025 <|> 192.168.86.55 <|> gateway.server.net <|> 11 <|> 23 <|> Processed transaction for order #12345. <|> 
-Mon Feb 24 00:04:42 EST 2025 <|> 192.168.86.55 <|> server1.mycompany.com <|> 8 <|> 42 <|> User logged in from mobile device. <|> 
-Mon Feb 24 00:04:42 EST 2025 <|> 192.168.86.55 <|> host42.company.org <|> 1 <|> 500 <|> Initial connection established, authentication pending. <|> 
-Mon Feb 24 00:04:43 EST 2025 <|> 192.168.86.55 <|> mailserver.example.net <|> 12 <|> 100 <|> Sent notification email to user. <|> 
-Mon Feb 24 00:04:43 EST 2025 <|> 192.168.86.55 <|> host42.company.org <|> 1 <|> 500 <|> Initial connection established, authentication pending. <|> 
-Mon Feb 24 00:04:44 EST 2025 <|> 192.168.86.55 <|> loadbalancer.example.com <|> 9 <|> 1001 <|> Service responded in under 50ms. <|> 
-Mon Feb 24 00:04:44 EST 2025 <|> 192.168.86.34 <|> cache01.service <|> 2 <|> 76 <|> Cache cleared for session recovery. <|> 
-Mon Feb 24 00:04:44 EST 2025 <|> 192.168.86.55 <|> server1.mycompany.com <|> 8 <|> 42 <|> User logged in from mobile device. <|> 
-Mon Feb 24 00:04:45 EST 2025 <|> 192.168.86.34 <|> loadbalancer.example.com <|> 9 <|> 1001 <|> Service responded in under 50ms. <|> 
-Mon Feb 24 00:04:45 EST 2025 <|> 192.168.86.55 <|> mailserver.example.net <|> 12 <|> 100 <|> Sent notification email to user. <|> 
-Mon Feb 24 00:04:45 EST 2025 <|> 192.168.86.34 <|> host42.company.org <|> 1 <|> 500 <|> Initial connection established, authentication pending. <|> 
-Mon Feb 24 00:04:45 EST 2025 <|> 192.168.86.55 <|> backend2.local <|> 16 <|> 999 <|> Database update encountered minor delay. <|> 
-Mon Feb 24 00:04:46 EST 2025 <|> 192.168.86.34 <|> cache01.service <|> 2 <|> 76 <|> Cache cleared for session recovery. <|> 
-Mon Feb 24 00:04:46 EST 2025 <|> 192.168.86.55 <|> backend2.local <|> 16 <|> 999 <|> Database update encountered minor delay. <|> 
-Mon Feb 24 00:04:46 EST 2025 <|> 192.168.86.34 <|> host42.company.org <|> 1 <|> 500 <|> Initial connection established, authentication pending. <|> 
-Mon Feb 24 00:04:46 EST 2025 <|> 192.168.86.55 <|> api.service.net <|> 4 <|> 15 <|> Fetched user profile successfully. <|> 
-Mon Feb 24 00:04:47 EST 2025 <|> 192.168.86.34 <|> api.service.net <|> 4 <|> 15 <|> Fetched user profile successfully. <|> 
-Mon Feb 24 00:04:47 EST 2025 <|> 192.168.86.55 <|> gateway.server.net <|> 11 <|> 23 <|> Processed transaction for order #12345. <|> 
-Mon Feb 24 00:04:47 EST 2025 <|> 192.168.86.34 <|> cache01.service <|> 2 <|> 76 <|> Cache cleared for session recovery. <|> 
-Mon Feb 24 00:04:47 EST 2025 <|> 192.168.86.55 <|> mailserver.example.net <|> 12 <|> 100 <|> Sent notification email to user. <|> 
-Mon Feb 24 00:04:48 EST 2025 <|> 192.168.86.34 <|> dbserver.local <|> 3 <|> 250 <|> Backup process completed with warnings. <|> 
-Mon Feb 24 00:04:48 EST 2025 <|> 192.168.86.55 <|> loadbalancer.example.com <|> 9 <|> 1001 <|> Service responded in under 50ms. <|> 
-Mon Feb 24 00:04:48 EST 2025 <|> 192.168.86.34 <|> host42.company.org <|> 1 <|> 500 <|> Initial connection established, authentication pending. <|> 
-Mon Feb 24 00:04:48 EST 2025 <|> 192.168.86.55 <|> loadbalancer.example.com <|> 9 <|> 1001 <|> Service responded in under 50ms. <|> 
-Mon Feb 24 00:04:49 EST 2025 <|> 192.168.86.34 <|> api.service.net <|> 4 <|> 15 <|> Fetched user profile successfully. <|> 
-Mon Feb 24 00:04:49 EST 2025 <|> 192.168.86.55 <|> loadbalancer.example.com <|> 9 <|> 1001 <|> Service responded in under 50ms. <|> 
-Mon Feb 24 00:04:49 EST 2025 <|> 192.168.86.34 <|> mailserver.example.net <|> 12 <|> 100 <|> Sent notification email to user. <|> 
-Mon Feb 24 00:04:49 EST 2025 <|> 192.168.86.55 <|> server1.mycompany.com <|> 8 <|> 42 <|> User logged in from mobile device. <|> 
-Mon Feb 24 00:04:50 EST 2025 <|> 192.168.86.34 <|> server1.mycompany.com <|> 8 <|> 42 <|> User logged in from mobile device. <|> 
-Mon Feb 24 00:04:50 EST 2025 <|> 192.168.86.55 <|> host42.company.org <|> 1 <|> 500 <|> Initial connection established, authentication pending. <|> 
-Mon Feb 24 00:04:50 EST 2025 <|> 192.168.86.34 <|> backend2.local <|> 16 <|> 999 <|> Database update encountered minor delay. <|> 
-Mon Feb 24 00:04:50 EST 2025 <|> 192.168.86.55 <|> webapp.internal <|> 6 <|> 37 <|> Error logging module failed to record event. <|> 
-Mon Feb 24 00:04:51 EST 2025 <|> 192.168.86.34 <|> webapp.internal <|> 6 <|> 37 <|> Error logging module failed to record event. <|> 
-Mon Feb 24 00:04:51 EST 2025 <|> 192.168.86.55 <|> backend2.local <|> 16 <|> 999 <|> Database update encountered minor delay. <|> 
-Mon Feb 24 00:04:51 EST 2025 <|> 192.168.86.34 <|> mailserver.example.net <|> 12 <|> 100 <|> Sent notification email to user. <|> 
-Mon Feb 24 00:04:51 EST 2025 <|> 192.168.86.55 <|> backend2.local <|> 16 <|> 999 <|> Database update encountered minor delay. <|> 
-Mon Feb 24 00:04:52 EST 2025 <|> 192.168.86.34 <|> dbserver.local <|> 3 <|> 250 <|> Backup process completed with warnings. <|> 
-Mon Feb 24 00:04:52 EST 2025 <|> 192.168.86.55 <|> mailserver.example.net <|> 12 <|> 100 <|> Sent notification email to user. <|> 
-Mon Feb 24 00:04:52 EST 2025 <|> 192.168.86.34 <|> loadbalancer.example.com <|> 9 <|> 1001 <|> Service responded in under 50ms. <|> 
-Mon Feb 24 00:04:52 EST 2025 <|> 192.168.86.55 <|> backend2.local <|> 16 <|> 999 <|> Database update encountered minor delay. <|> 
-Mon Feb 24 00:04:53 EST 2025 <|> 192.168.86.34 <|> api.service.net <|> 4 <|> 15 <|> Fetched user profile successfully. <|> 
-Mon Feb 24 00:04:53 EST 2025 <|> 192.168.86.55 <|> loadbalancer.example.com <|> 9 <|> 1001 <|> Service responded in under 50ms. <|> 
-Mon Feb 24 00:04:53 EST 2025 <|> 192.168.86.34 <|> webapp.internal <|> 6 <|> 37 <|> Error logging module failed to record event. <|> 
-Mon Feb 24 00:04:53 EST 2025 <|> 192.168.86.55 <|> webapp.internal <|> 6 <|> 37 <|> Error logging module failed to record event. <|> 
-Mon Feb 24 00:04:54 EST 2025 <|> 192.168.86.34 <|> backend2.local <|> 16 <|> 999 <|> Database update encountered minor delay. <|> 
-Mon Feb 24 00:04:54 EST 2025 <|> 192.168.86.55 <|> api.service.net <|> 4 <|> 15 <|> Fetched user profile successfully. <|> 
-Mon Feb 24 00:04:54 EST 2025 <|> 192.168.86.34 <|> api.service.net <|> 4 <|> 15 <|> Fetched user profile successfully. <|> 
-Mon Feb 24 00:04:54 EST 2025 <|> 192.168.86.55 <|> loadbalancer.example.com <|> 9 <|> 1001 <|> Service responded in under 50ms. <|> 
-Mon Feb 24 00:04:55 EST 2025 <|> 192.168.86.34 <|> mailserver.example.net <|> 12 <|> 100 <|> Sent notification email to user. <|> 
-Mon Feb 24 00:04:55 EST 2025 <|> 192.168.86.55 <|> backend2.local <|> 16 <|> 999 <|> Database update encountered minor delay. <|> 
-Mon Feb 24 00:04:55 EST 2025 <|> 192.168.86.34 <|> backend2.local <|> 16 <|> 999 <|> Database update encountered minor delay. <|> 
-Mon Feb 24 00:04:55 EST 2025 <|> 192.168.86.55 <|> host42.company.org <|> 1 <|> 500 <|> Initial connection established, authentication pending. <|> 
-Mon Feb 24 00:04:56 EST 2025 <|> 192.168.86.34 <|> mailserver.example.net <|> 12 <|> 100 <|> Sent notification email to user. <|> 
-Mon Feb 24 00:04:56 EST 2025 <|> 192.168.86.55 <|> backend2.local <|> 16 <|> 999 <|> Database update encountered minor delay. <|> 
-Mon Feb 24 00:04:56 EST 2025 <|> 192.168.86.34 <|> server1.mycompany.com <|> 8 <|> 42 <|> User logged in from mobile device. <|> 
-Mon Feb 24 00:04:56 EST 2025 <|> 192.168.86.55 <|> api.service.net <|> 4 <|> 15 <|> Fetched user profile successfully. <|> 
-Mon Feb 24 00:04:57 EST 2025 <|> 192.168.86.34 <|> api.service.net <|> 4 <|> 15 <|> Fetched user profile successfully. <|> 
-Mon Feb 24 00:04:57 EST 2025 <|> 192.168.86.55 <|> webapp.internal <|> 6 <|> 37 <|> Error logging module failed to record event. <|> 
-Mon Feb 24 00:04:57 EST 2025 <|> 192.168.86.34 <|> cache01.service <|> 2 <|> 76 <|> Cache cleared for session recovery. <|> 
-Mon Feb 24 00:04:57 EST 2025 <|> 192.168.86.55 <|> server1.mycompany.com <|> 8 <|> 42 <|> User logged in from mobile device. <|> 
-Mon Feb 24 00:04:58 EST 2025 <|> 192.168.86.34 <|> server1.mycompany.com <|> 8 <|> 42 <|> User logged in from mobile device. <|> 
-Mon Feb 24 00:04:58 EST 2025 <|> 192.168.86.55 <|> gateway.server.net <|> 11 <|> 23 <|> Processed transaction for order #12345. <|> 
-Mon Feb 24 00:04:58 EST 2025 <|> 192.168.86.34 <|> cache01.service <|> 2 <|> 76 <|> Cache cleared for session recovery. <|> 
-Mon Feb 24 00:04:58 EST 2025 <|> 192.168.86.55 <|> webapp.internal <|> 6 <|> 37 <|> Error logging module failed to record event. <|> 
-Mon Feb 24 00:04:59 EST 2025 <|> 192.168.86.34 <|> webapp.internal <|> 6 <|> 37 <|> Error logging module failed to record event. <|> 
-Mon Feb 24 00:04:59 EST 2025 <|> 192.168.86.55 <|> backend2.local <|> 16 <|> 999 <|> Database update encountered minor delay. <|> 
-Mon Feb 24 00:04:59 EST 2025 <|> 192.168.86.34 <|> gateway.server.net <|> 11 <|> 23 <|> Processed transaction for order #12345. <|> 
-Mon Feb 24 00:04:59 EST 2025 <|> 192.168.86.55 <|> backend2.local <|> 16 <|> 999 <|> Database update encountered minor delay. <|> 
-Mon Feb 24 00:05:00 EST 2025 <|> 192.168.86.34 <|> gateway.server.net <|> 11 <|> 23 <|> Processed transaction for order #12345. <|> 
-Mon Feb 24 00:05:00 EST 2025 <|> 192.168.86.55 <|> dbserver.local <|> 3 <|> 250 <|> Backup process completed with warnings. <|> 
-Mon Feb 24 00:05:00 EST 2025 <|> 192.168.86.34 <|> webapp.internal <|> 6 <|> 37 <|> Error logging module failed to record event. <|> 
-Mon Feb 24 00:05:00 EST 2025 <|> 192.168.86.55 <|> api.service.net <|> 4 <|> 15 <|> Fetched user profile successfully. <|> 
-Mon Feb 24 00:05:01 EST 2025 <|> 192.168.86.34 <|> loadbalancer.example.com <|> 9 <|> 1001 <|> Service responded in under 50ms. <|> 
-Mon Feb 24 00:05:01 EST 2025 <|> 192.168.86.55 <|> dbserver.local <|> 3 <|> 250 <|> Backup process completed with warnings. <|> 
-Mon Feb 24 00:05:01 EST 2025 <|> 192.168.86.34 <|> mailserver.example.net <|> 12 <|> 100 <|> Sent notification email to user. <|> 
-Mon Feb 24 00:05:01 EST 2025 <|> 192.168.86.55 <|> api.service.net <|> 4 <|> 15 <|> Fetched user profile successfully. <|> 
-Mon Feb 24 00:05:02 EST 2025 <|> 192.168.86.34 <|> host42.company.org <|> 1 <|> 500 <|> Initial connection established, authentication pending. <|> 
-Mon Feb 24 00:05:02 EST 2025 <|> 192.168.86.55 <|> backend2.local <|> 16 <|> 999 <|> Database update encountered minor delay. <|> 
-Mon Feb 24 00:05:02 EST 2025 <|> 192.168.86.34 <|> backend2.local <|> 16 <|> 999 <|> Database update encountered minor delay. <|> 
-Mon Feb 24 00:05:02 EST 2025 <|> 192.168.86.55 <|> webapp.internal <|> 6 <|> 37 <|> Error logging module failed to record event. <|> 
-Mon Feb 24 00:05:03 EST 2025 <|> 192.168.86.34 <|> backend2.local <|> 16 <|> 999 <|> Database update encountered minor delay. <|> 
-Mon Feb 24 00:05:03 EST 2025 <|> 192.168.86.55 <|> api.service.net <|> 4 <|> 15 <|> Fetched user profile successfully. <|> 
-Mon Feb 24 00:05:03 EST 2025 <|> 192.168.86.34 <|> dbserver.local <|> 3 <|> 250 <|> Backup process completed with warnings. <|> 
-Mon Feb 24 00:05:03 EST 2025 <|> 192.168.86.55 <|> server1.mycompany.com <|> 8 <|> 42 <|> User logged in from mobile device. <|> 
-Mon Feb 24 00:05:04 EST 2025 <|> 192.168.86.34 <|> cache01.service <|> 2 <|> 76 <|> Cache cleared for session recovery. <|> 
-Mon Feb 24 00:05:04 EST 2025 <|> 192.168.86.55 <|> host42.company.org <|> 1 <|> 500 <|> Initial connection established, authentication pending. <|> 
-Mon Feb 24 00:05:04 EST 2025 <|> 192.168.86.34 <|> loadbalancer.example.com <|> 9 <|> 1001 <|> Service responded in under 50ms. <|> 
-Mon Feb 24 00:05:04 EST 2025 <|> 192.168.86.55 <|> api.service.net <|> 4 <|> 15 <|> Fetched user profile successfully. <|> 
-Mon Feb 24 00:05:05 EST 2025 <|> 192.168.86.34 <|> server1.mycompany.com <|> 8 <|> 42 <|> User logged in from mobile device. <|> 
-Mon Feb 24 00:05:05 EST 2025 <|> 192.168.86.55 <|> mailserver.example.net <|> 12 <|> 100 <|> Sent notification email to user. <|> 
-Mon Feb 24 00:05:05 EST 2025 <|> 192.168.86.34 <|> dbserver.local <|> 3 <|> 250 <|> Backup process completed with warnings. <|> 
-Mon Feb 24 00:05:05 EST 2025 <|> 192.168.86.55 <|> gateway.server.net <|> 11 <|> 23 <|> Processed transaction for order #12345. <|> 
-Mon Feb 24 00:05:06 EST 2025 <|> 192.168.86.34 <|> cache01.service <|> 2 <|> 76 <|> Cache cleared for session recovery. <|> 
-Mon Feb 24 00:05:06 EST 2025 <|> 192.168.86.55 <|> host42.company.org <|> 1 <|> 500 <|> Initial connection established, authentication pending. <|> 
-Mon Feb 24 00:05:06 EST 2025 <|> 192.168.86.34 <|> server1.mycompany.com <|> 8 <|> 42 <|> User logged in from mobile device. <|> 
-Mon Feb 24 00:05:06 EST 2025 <|> 192.168.86.55 <|> gateway.server.net <|> 11 <|> 23 <|> Processed transaction for order #12345. <|> 
-Mon Feb 24 00:05:07 EST 2025 <|> 192.168.86.34 <|> backend2.local <|> 16 <|> 999 <|> Database update encountered minor delay. <|> 
-Mon Feb 24 00:05:07 EST 2025 <|> 192.168.86.55 <|> cache01.service <|> 2 <|> 76 <|> Cache cleared for session recovery. <|> 
-Mon Feb 24 00:05:07 EST 2025 <|> 192.168.86.34 <|> gateway.server.net <|> 11 <|> 23 <|> Processed transaction for order #12345. <|> 
-Mon Feb 24 00:05:07 EST 2025 <|> 192.168.86.55 <|> cache01.service <|> 2 <|> 76 <|> Cache cleared for session recovery. <|> 
-Mon Feb 24 00:05:08 EST 2025 <|> 192.168.86.34 <|> cache01.service <|> 2 <|> 76 <|> Cache cleared for session recovery. <|> 
+12:01PM <|> 192.168.86.55 <|> server1.mycompany.com <|> 8 <|> 42 <|> User logged in from mobile device. <|> 
+12:01PM <|> 192.168.86.55 <|> mailserver.example.net <|> 12 <|> 100 <|> Sent notification email to user. <|> 
+12:01PM <|> 192.168.86.55 <|> webapp.internal <|> 6 <|> 37 <|> Error logging module failed to record event. <|> 
+12:01PM <|> 192.168.86.55 <|> server1.mycompany.com <|> 8 <|> 42 <|> User logged in from mobile device. <|> 
+12:01PM <|> 192.168.86.55 <|> webapp.internal <|> 6 <|> 37 <|> Error logging module failed to record event. <|> 
+12:01PM <|> 192.168.86.55 <|> server1.mycompany.com <|> 8 <|> 42 <|> User logged in from mobile device. <|> 
+12:01PM <|> 192.168.86.55 <|> host42.company.org <|> 1 <|> 500 <|> Initial connection established, authentication pending. <|> 
+12:01PM <|> 192.168.86.55 <|> host42.company.org <|> 1 <|> 500 <|> Initial connection established, authentication pending. <|> 
+12:01PM <|> 192.168.86.55 <|> gateway.server.net <|> 11 <|> 23 <|> Processed transaction for order #12345. <|> 
+12:01PM <|> 192.168.86.55 <|> cache01.service <|> 2 <|> 76 <|> Cache cleared for session recovery. <|> 
+12:01PM <|> 192.168.86.55 <|> api.service.net <|> 4 <|> 15 <|> Fetched user profile successfully. <|> 
+12:01PM <|> 192.168.86.55 <|> api.service.net <|> 4 <|> 15 <|> Fetched user profile successfully. <|> 
+12:01PM <|> 192.168.86.55 <|> gateway.server.net <|> 11 <|> 23 <|> Processed transaction for order #12345. <|> 
+12:01PM <|> 192.168.86.55 <|> gateway.server.net <|> 11 <|> 23 <|> Processed transaction for order #12345. <|> 
+12:01PM <|> 192.168.86.55 <|> backend2.local <|> 16 <|> 999 <|> Database update encountered minor delay. <|> 
+12:01PM <|> 192.168.86.55 <|> backend2.local <|> 16 <|> 999 <|> Database update encountered minor delay. <|> 
+12:01PM <|> 192.168.86.55 <|> server1.mycompany.com <|> 8 <|> 42 <|> User logged in from mobile device. <|> 
+12:01PM <|> 192.168.86.55 <|> cache01.service <|> 2 <|> 76 <|> Cache cleared for session recovery. <|> 
+12:01PM <|> 192.168.86.55 <|> loadbalancer.example.com <|> 9 <|> 1001 <|> Service responded in under 50ms. <|> 
+12:01PM <|> 192.168.86.55 <|> cache01.service <|> 2 <|> 76 <|> Cache cleared for session recovery. <|> 
+12:01PM <|> 192.168.86.55 <|> mailserver.example.net <|> 12 <|> 100 <|> Sent notification email to user. <|> 
+12:01PM <|> 192.168.86.55 <|> host42.company.org <|> 1 <|> 500 <|> Initial connection established, authentication pending. <|> 
+12:01PM <|> 192.168.86.55 <|> server1.mycompany.com <|> 8 <|> 42 <|> User logged in from mobile device. <|> 
+12:01PM <|> 192.168.86.55 <|> api.service.net <|> 4 <|> 15 <|> Fetched user profile successfully. <|> 
+12:01PM <|> 192.168.86.55 <|> host42.company.org <|> 1 <|> 500 <|> Initial connection established, authentication pending. <|> 
+12:01PM <|> 192.168.86.55 <|> backend2.local <|> 16 <|> 999 <|> Database update encountered minor delay. <|> 
+12:01PM <|> 192.168.86.55 <|> gateway.server.net <|> 11 <|> 23 <|> Processed transaction for order #12345. <|> 
+12:01PM <|> 192.168.86.55 <|> webapp.internal <|> 6 <|> 37 <|> Error logging module failed to record event. <|> 
+12:01PM <|> 192.168.86.55 <|> webapp.internal <|> 6 <|> 37 <|> Error logging module failed to record event. <|> 
+12:01PM <|> 192.168.86.55 <|> loadbalancer.example.com <|> 9 <|> 1001 <|> Service responded in under 50ms. <|> 
+12:01PM <|> 192.168.86.55 <|> dbserver.local <|> 3 <|> 250 <|> Backup process completed with warnings. <|> 
+12:01PM <|> 192.168.86.55 <|> api.service.net <|> 4 <|> 15 <|> Fetched user profile successfully. <|> 
+12:01PM <|> 192.168.86.55 <|> gateway.server.net <|> 11 <|> 23 <|> Processed transaction for order #12345. <|> 
+12:01PM <|> 192.168.86.55 <|> dbserver.local <|> 3 <|> 250 <|> Backup process completed with warnings. <|> 
+12:01PM <|> 192.168.86.55 <|> cache01.service <|> 2 <|> 76 <|> Cache cleared for session recovery. <|> 
+12:01PM <|> 192.168.86.55 <|> dbserver.local <|> 3 <|> 250 <|> Backup process completed with warnings. <|> 
+12:01PM <|> 192.168.86.55 <|> gateway.server.net <|> 11 <|> 23 <|> Processed transaction for order #12345. <|> 
+12:01PM <|> 192.168.86.55 <|> mailserver.example.net <|> 12 <|> 100 <|> Sent notification email to user. <|> 
+12:01PM <|> 192.168.86.55 <|> webapp.internal <|> 6 <|> 37 <|> Error logging module failed to record event. <|> 
+12:01PM <|> 192.168.86.55 <|> dbserver.local <|> 3 <|> 250 <|> Backup process completed with warnings. <|> 
+12:01PM <|> 192.168.86.55 <|> host42.company.org <|> 1 <|> 500 <|> Initial connection established, authentication pending. <|> 
+12:01PM <|> 192.168.86.55 <|> gateway.server.net <|> 11 <|> 23 <|> Processed transaction for order #12345. <|> 
+12:01PM <|> 192.168.86.55 <|> backend2.local <|> 16 <|> 999 <|> Database update encountered minor delay. <|> 
+12:01PM <|> 192.168.86.55 <|> api.service.net <|> 4 <|> 15 <|> Fetched user profile successfully. <|> 
+12:01PM <|> 192.168.86.55 <|> mailserver.example.net <|> 12 <|> 100 <|> Sent notification email to user. <|> 
+12:01PM <|> 192.168.86.55 <|> cache01.service <|> 2 <|> 76 <|> Cache cleared for session recovery. <|> 
+12:01PM <|> 192.168.86.55 <|> server1.mycompany.com <|> 8 <|> 42 <|> User logged in from mobile device. <|> 
+12:01PM <|> 192.168.86.55 <|> webapp.internal <|> 6 <|> 37 <|> Error logging module failed to record event. <|> 
+12:01PM <|> 192.168.86.55 <|> mailserver.example.net <|> 12 <|> 100 <|> Sent notification email to user. <|> 
+12:01PM <|> 192.168.86.55 <|> mailserver.example.net <|> 12 <|> 100 <|> Sent notification email to user. <|> 
+12:01PM <|> 192.168.86.55 <|> mailserver.example.net <|> 12 <|> 100 <|> Sent notification email to user. <|> 
+12:01PM <|> 192.168.86.55 <|> mailserver.example.net <|> 12 <|> 100 <|> Sent notification email to user. <|> 
+12:01PM <|> 192.168.86.55 <|> host42.company.org <|> 1 <|> 500 <|> Initial connection established, authentication pending. <|> 
+12:01PM <|> 192.168.86.55 <|> gateway.server.net <|> 11 <|> 23 <|> Processed transaction for order #12345. <|> 
+12:01PM <|> 192.168.86.55 <|> api.service.net <|> 4 <|> 15 <|> Fetched user profile successfully. <|> 
+12:01PM <|> 192.168.86.55 <|> webapp.internal <|> 6 <|> 37 <|> Error logging module failed to record event. <|> 
+12:02PM <|> 192.168.86.55 <|> cache01.service <|> 2 <|> 76 <|> Cache cleared for session recovery. <|> 
+12:02PM <|> 192.168.86.55 <|> mailserver.example.net <|> 12 <|> 100 <|> Sent notification email to user. <|> 
+12:02PM <|> 192.168.86.55 <|> host42.company.org <|> 1 <|> 500 <|> Initial connection established, authentication pending. <|> 
+12:02PM <|> 192.168.86.55 <|> dbserver.local <|> 3 <|> 250 <|> Backup process completed with warnings. <|> 

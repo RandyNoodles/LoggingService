@@ -1,3 +1,16 @@
+/*
+* FILE : 			logwriter.go
+* PROJECT : 		SENG2040 - Assignment #3
+* PROGRAMMER : 		Woongbeen Lee, Joshua Rice
+* FIRST VERSION : 	2025-02-22
+* DESCRIPTION :
+			Upon construction, notes down the logfile format specified
+		in config.json.
+
+		Provides functions to allow threadsafe writing to logfiles in the
+		configured format.
+*/
+
 package logwriter
 
 import (
@@ -38,16 +51,14 @@ var TimeFormats = map[string]string{
 }
 
 type LogWriter struct {
-	format              logFormat
-	fieldDelimiter      string
-	entryDelimiter      string
-	columnOrder         []string
-	timestampFormat     string
-	isTimestampIncluded bool
-	isSourceIpIncluded  bool
+	format          logFormat
+	fieldDelimiter  string
+	entryDelimiter  string
+	columnOrder     []string
+	timestampFormat string
 }
 
-func New(logSettings config.LogfileSettings, timeAndIPSetting config.RequiredFieldSettings) *LogWriter {
+func New(logSettings config.LogfileSettings) *LogWriter {
 
 	var convertedFormat logFormat
 	if logSettings.Format == "json" {
@@ -59,13 +70,11 @@ func New(logSettings config.LogfileSettings, timeAndIPSetting config.RequiredFie
 	}
 
 	return &LogWriter{
-		format:              convertedFormat,
-		fieldDelimiter:      logSettings.PlaintextFieldDelimiter,
-		entryDelimiter:      logSettings.PlaintextEntryDelimiter,
-		columnOrder:         logSettings.ColumnOrder,
-		timestampFormat:     timeAndIPSetting.TimestampFormat,
-		isTimestampIncluded: timeAndIPSetting.TimestampIncludeInLogs,
-		isSourceIpIncluded:  timeAndIPSetting.SourceIPIncludeInLogs,
+		format:          convertedFormat,
+		fieldDelimiter:  logSettings.PlaintextFieldDelimiter,
+		entryDelimiter:  logSettings.PlaintextEntryDelimiter,
+		columnOrder:     logSettings.ColumnOrder,
+		timestampFormat: logSettings.TimestampFormat,
 	}
 }
 
@@ -126,11 +135,23 @@ func (lw *LogWriter) WriteLogToFile(logEntry string, path string) error {
 }
 
 func (lw *LogWriter) FormatLogEntry(log map[string]interface{}, clientIp string) (string, error) {
-	if lw.isTimestampIncluded {
+
+	timestampIncluded := false
+	sourceIpIncluded := false
+	for _, column := range lw.columnOrder {
+		if column == "timestamp" {
+			timestampIncluded = true
+		}
+		if column == "source_ip" {
+			sourceIpIncluded = true
+		}
+	}
+
+	if timestampIncluded {
 		log["timestamp"] = time.Now().Format(TimeFormats[lw.timestampFormat])
 	}
 
-	if lw.isSourceIpIncluded {
+	if sourceIpIncluded {
 		log["source_ip"] = clientIp
 
 	}

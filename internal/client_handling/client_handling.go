@@ -1,3 +1,16 @@
+/*
+* FILE : 			client_handling.go
+* PROJECT : 		SENG2040 - Assignment #3
+* PROGRAMMER : 		Woongbeen Lee, Joshua Rice
+* FIRST VERSION : 	2025-02-23
+* DESCRIPTION :
+			HandleClient() is the primary function to handle incoming client
+		log messages. It handles:
+		- Calling abuse prevention mechanisms
+		- Validating the incoming message against the user-defined schema
+		- Writing to logfile(s)
+*/
+
 package clienthandling
 
 import (
@@ -28,7 +41,7 @@ func New(settings config.Config) *ClientHandler {
 	return &ClientHandler{
 		schema:        settings.ProtocolSettings.IncomingMessageSchema,
 		errorSettings: settings.ErrorHandling,
-		logWriter:     logwriter.New(settings.LogfileSettings, settings.RequiredFieldSettings),
+		logWriter:     logwriter.New(settings.LogfileSettings),
 		logPath:       settings.LogfileSettings.Path,
 		errlogPath:    settings.ErrorHandling.ErrorLogPath,
 	}
@@ -55,6 +68,7 @@ func (handler *ClientHandler) HandleClient(conn net.Conn, abusePrevention *abuse
 	clientAddress := strings.Split(conn.RemoteAddr().String(), ":")
 
 	clientIp := clientAddress[0]
+	fmt.Printf("Client Ip: %s\n", clientIp)
 
 	err = handler.ValidateMessage(message, clientIp, abusePrevention)
 	if err != nil {

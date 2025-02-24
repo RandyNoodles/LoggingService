@@ -4,27 +4,20 @@
         "port":13000
     },
     "logfile_settings": {
-        "path_type": "relative",
         "path": "../logs.txt",
         "format": "plaintext",
         "plaintext_field_delimiter": " <|> ",
         "plaintext_entry_delimiter": "\n",
-        "max_size_kb": 5000,  
-        "rotation_minutes": 10,
-        "column_order": ["timestamp", "source_ip", "host", "level", "user_id", "details"]
+        "column_order": ["timestamp", "source_ip", "host", "level", "user_id", "details"],
+        "timestamp_format":"Kitchen"
     },
     "protocol_settings": {
         "incoming_json_schema": "../incoming_message_schema.json",
         "messages_per_ip_per_minute": 5,
         "bad_message_blacklist_threshold": 5,
         "blacklisted_ips": [],
-        "blacklist_permanent": false,
+        "blacklist_permanent": true,
         "blacklist_duration_seconds": 10
-    },
-    "required_field_settings":{
-        "timestamp_format":"UnixDate",
-        "timestamp_include_in_logs": true,
-        "source_ip_include_in_logs":true
     },
     "error_handling": {
         "invalid_message": "redirect_to_error_log",

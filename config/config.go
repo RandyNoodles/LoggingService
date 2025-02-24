@@ -1,3 +1,17 @@
+/*
+* FILE : 			config.go
+* PROJECT : 		SENG2040 - Assignment #3
+* PROGRAMMER : 		Woongbeen Lee, Joshua Rice
+* FIRST VERSION : 	2025-02-22
+* DESCRIPTION :
+			Parses config.json, as well as the user-defined message format
+		defined in "protocol_settings": "incoming_message_schema".
+
+		Calling ParseConfigFile():
+		Returns an error if config or incoming_message_schema are invalid.
+		Else returns a pointer to a set of structs containing all parsed config data.
+*/
+
 package config
 
 import (
@@ -15,11 +29,10 @@ var configValidationSchema []byte //Embed config schema into binary to avoid use
 
 // Holds all three config sections from parsed config.json file
 type Config struct {
-	ServerSettings        ServerSettings        `json:"server_settings"`
-	LogfileSettings       LogfileSettings       `json:"logfile_settings"`
-	ProtocolSettings      ProtocolSettings      `json:"protocol_settings"`
-	ErrorHandling         ErrorSettings         `json:"error_handling"`
-	RequiredFieldSettings RequiredFieldSettings `json:"required_field_settings"`
+	ServerSettings   ServerSettings   `json:"server_settings"`
+	LogfileSettings  LogfileSettings  `json:"logfile_settings"`
+	ProtocolSettings ProtocolSettings `json:"protocol_settings"`
+	ErrorHandling    ErrorSettings    `json:"error_handling"`
 }
 
 // Where to boot up the server
@@ -30,14 +43,12 @@ type ServerSettings struct {
 
 // Settings for logfile configuration
 type LogfileSettings struct {
-	PathType                string   `json:"path_type"`
 	Path                    string   `json:"path"`
 	Format                  string   `json:"format"`
 	PlaintextFieldDelimiter string   `json:"plaintext_field_delimiter"`
 	PlaintextEntryDelimiter string   `json:"plaintext_entry_delimiter"`
-	MaxSizeKB               uint32   `json:"max_size_kb"`
-	RotationMinutes         uint32   `json:"rotation_minutes"`
 	ColumnOrder             []string `json:"column_order"`
+	TimestampFormat         string   `json:"timestamp_format"`
 }
 
 // Settings for Protocol & abuse prevention
@@ -56,13 +67,6 @@ type ErrorSettings struct {
 	ExtraField     string `json:"extra_field"`
 	InvalidMessage string `json:"invalid_message"`
 	ErrorLogPath   string `json:"error_log_path"`
-}
-
-// Settings for Source IP & Timestamp fields
-type RequiredFieldSettings struct {
-	TimestampFormat        string `json:"timestamp_format"`
-	TimestampIncludeInLogs bool   `json:"timestamp_include_in_logs"`
-	SourceIPIncludeInLogs  bool   `json:"source_ip_include_in_logs"`
 }
 
 func ParseConfigFile() (*Config, error) {

@@ -1,3 +1,21 @@
+/*
+* FILE : 			main.go
+* PROJECT : 		SENG2040 - Assignment #3
+* PROGRAMMER : 		Woongbeen Lee, Joshua Rice
+* FIRST VERSION : 	2025-02-22
+* DESCRIPTION :
+			Entry point for the logging service.
+		Instantiates:
+			- Config objects
+				- Parses config.json
+			- Abuse prevention system
+			- Client handler
+			- Listener
+
+		Once systems are setup, runs listener in a loop which spawns new
+		go routines to handle any incoming client requests.
+*/
+
 package main
 
 import (
@@ -8,13 +26,9 @@ import (
 	"fmt"
 	"log"
 	"net"
-	"time"
 )
 
 func main() {
-
-	var intSecs uint32 = uint32(time.Now().Unix())
-	fmt.Println(intSecs)
 
 	//Load config settings
 	config, err := config.ParseConfigFile()

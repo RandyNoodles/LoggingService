@@ -12,16 +12,14 @@
         "logfile_settings": {
             "type": "object",
             "properties": {
-                "path_type": { "type": "string", "enum": ["relative", "absolute"] },
                 "path": { "type": "string" },
                 "format": { "type": "string", "enum": ["json", "plaintext"] },
                 "plaintext_field_delimiter": {"type": "string", "maxLength": 25},
                 "plaintext_entry_delimiter": {"type": "string"},
-                "max_size_kb": { "type": "integer", "minimum": 5000, "maximum": 65536 },
-                "rotation_minutes": { "type": "integer", "minimum": 0 },
-                "column_order": {"type": "array", "minItems": 3, "maxItems": 30}
+                "column_order": {"type": "array", "minItems": 3, "maxItems": 30},
+                "timestamp_format": {"type": "string", "enum": ["ANSIC", "UnixDate", "RubyDate", "RFC822", "RFC822Z", "RFC850", "RFC1123", "RFC1123Z", "RFC3339", "RFC3339Nano", "Kitchen"]}
             },
-            "required": ["path_type", "path", "format","plaintext_field_delimiter","plaintext_entry_delimiter", "max_size_kb", "rotation_minutes", "column_order"]
+            "required": ["path", "format","plaintext_field_delimiter","plaintext_entry_delimiter", "column_order"]
         },
         "protocol_settings": {
             "type": "object",
@@ -35,14 +33,6 @@
             },
             "required": ["incoming_json_schema", "messages_per_ip_per_minute", "bad_message_blacklist_threshold", "blacklist_permanent", "blacklist_duration_seconds"]
         },
-        "log_format_settings": {
-            "type": "object",
-            "properties": {
-                "supported_formats": { "type": "array", "items": { "type": "string", "enum": ["JSON", "Syslog"] } },
-                "default_format": { "type": "string", "enum": ["JSON", "Syslog"] }
-            },
-            "required": ["supported_formats", "default_format"]
-        },
         "error_handling": {
             "type": "object",
             "properties": {
@@ -50,15 +40,6 @@
                 "error_log_path": { "type": "string" }
             },
             "required": ["invalid_message", "error_log_path"]
-        },
-        "required_field_settings":{
-            "type": "object",
-            "properties": {
-                "timestamp_format": {"type": "string", "enum": ["ANSIC", "UnixDate", "RubyDate", "RFC822", "RFC822Z", "RFC850", "RFC1123", "RFC1123Z", "RFC3339", "RFC3339Nano", "Kitchen"]},
-                "timestamp_include_in_logs": {"type": "boolean"},
-                "source_ip_include_in_logs": {"type": "boolean"}
-            },
-            "required": [ "timestamp_format","timestamp_include_in_logs", "source_ip_include_in_logs"]
         }
     },
     "required": ["logfile_settings", "protocol_settings", "error_handling"]
