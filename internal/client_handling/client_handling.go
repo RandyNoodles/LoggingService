@@ -1,7 +1,5 @@
 package clienthandling
 
-//
-
 import (
 	"LoggingService/config"
 	abuseprevention "LoggingService/internal/abuse_prevention"
@@ -52,12 +50,12 @@ func (handler *ClientHandler) HandleClient(conn net.Conn, abusePrevention *abuse
 		return
 	}
 
-	// //Log message in rate limiter, check if rate has been exceeded.
-	// err := abusePrevention.CheckIPRateLimiter(clientIp)
-	// if err != nil {
-	// 	handler.sendResponse(conn, false, result.Error())
-	// 	return
-	// }
+	//Log message in rate limiter, check if rate has been exceeded.
+	err := abusePrevention.CheckIPRateLimiter(clientIp)
+	if err != nil {
+		handler.sendResponse(conn, false, err.Error())
+		return
+	}
 
 	//Read the message stream into memory
 	buffer := make([]byte, 4196)
@@ -94,21 +92,6 @@ func (handler *ClientHandler) HandleClient(conn net.Conn, abusePrevention *abuse
 		handler.sendResponse(conn, false, "internal server error")
 		return
 	}
-
-	//Check source_id blacklist
-	clientId, _ := parsedMessage["source_id"].(string)
-	result = abusePrevention.CheckSourceIDBlacklist(clientId)
-	if result != nil {
-		handler.sendResponse(conn, false, result.Error())
-		return
-	}
-
-	// //Log message in rate limiter, check if rate has been exceeded.
-	// err = abusePrevention.CheckSourceRateLimiter(parsedMessage["source_id"].(string))
-	// if err != nil {
-	// 	handler.sendResponse(conn, false, result.Error())
-	// 	return
-	// }
 
 	//Format log
 	formattedLog, err := handler.logWriter.FormatLogEntry(parsedMessage, clientIp)

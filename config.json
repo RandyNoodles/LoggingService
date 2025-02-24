@@ -11,17 +11,15 @@
         "plaintext_entry_delimiter": "\n",
         "max_size_kb": 5000,  
         "rotation_minutes": 10,
-        "column_order": ["timestamp", "source_ip", "source_id", "host", "level", "user_id", "details"]
+        "column_order": ["timestamp", "source_ip", "host", "level", "user_id", "details"]
     },
     "protocol_settings": {
         "incoming_json_schema": "../incoming_message_schema.json",
-        "messages_per_ip_per_minute": 20,
-        "messages_per_source_id_per_minute": 10,
+        "messages_per_ip_per_minute": 5,
         "bad_message_blacklist_threshold": 5,
-        "blacklisted_ips": ["127.0.0.1"],
-        "blacklisted_source_ids": [ "m9Qw8" ],
+        "blacklisted_ips": [],
         "blacklist_permanent": false,
-        "blacklist_duration_seconds": 20
+        "blacklist_duration_seconds": 10
     },
     "required_field_settings":{
         "timestamp_format":"UnixDate",
@@ -29,7 +27,6 @@
         "source_ip_include_in_logs":true
     },
     "error_handling": {
-        "extra_field": "truncate",
         "invalid_message": "redirect_to_error_log",
         "error_log_path": "../errors.txt"
     }

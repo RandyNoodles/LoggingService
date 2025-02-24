@@ -37,6 +37,8 @@ func (mrb *RateLimiter) IsRateExceeded() (bool, uint32) {
 	timeElapsed := currentSeconds - mrb.timestampBuffer[mrb.writePos]
 	fmt.Printf("time elapsed: %d\n", timeElapsed)
 	if timeElapsed < 60 {
+
+		mrb.clientOffenses++
 		return true, mrb.clientOffenses //If yes, your rate has been exceeded.
 	}
 

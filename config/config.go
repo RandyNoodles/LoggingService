@@ -44,10 +44,8 @@ type LogfileSettings struct {
 type ProtocolSettings struct {
 	IncomingMessageSchemaPath    string   `json:"incoming_json_schema"`
 	IpMessagesPerMinute          int      `json:"messages_per_ip_per_minute"`
-	SourceMessagesPerMinute      int      `json:"messages_per_source_id_per_minute"`
 	BadMessageBlacklistThreshold int      `json:"bad_message_blacklist_threshold"`
 	BlacklistedIPs               []string `json:"blacklisted_ips"`
-	BlacklistedSourceIds         []string `json:"blacklisted_source_ids"`
 	BlacklistPermanent           bool     `json:"blacklist_permanent"`
 	BlacklistDurationSeconds     int      `json:"blacklist_duration_seconds"`
 	IncomingMessageSchema        []byte
@@ -137,11 +135,6 @@ func (obj *Config) parseIncomingMessageSchema() error {
 		return errors.New(`"properties" object in incoming_message_schema.json file cannot be empty. At minimum "source_id" is required`)
 	}
 
-	// Ensure "source_id" key is present within "properties" of incoming_message_schema.json
-	if _, exists := props["source_id"]; !exists {
-		return errors.New(`"source_id" property must be present in the incoming_message_schema.json file`)
-	}
-
 	//Ensure all columns in column_ordering are found in the properties of incoming_message_schema.json
 	err = validateColumnOrdering(obj.LogfileSettings.ColumnOrder, props)
 	if err != nil {
@@ -164,7 +157,7 @@ func validateColumnOrdering(columnOrder []string, props map[string]interface{}) 
 				continue
 			}
 
-			return fmt.Errorf("column_order property in 'config.json' contains unknown property: %s", col)
+			return fmt.Errorf("config.json>>logfile_settings>>column_order contains column not found in incoming_message_schema: %s", col)
 		}
 	}
 	return nil

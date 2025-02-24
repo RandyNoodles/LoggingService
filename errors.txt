@@ -16,3 +16,15 @@ ERROR: invalid message format: 2025-02-23T18:13:26-05:00: message failed to vali
 - (root): level is required
 - (root): user_id is required
 
+ERROR: invalid message format: 2025-02-23T22:57:45-05:00: message failed to validate against schema:
+- (root): level is required
+- (root): user_id is required
+- (root): details is required
+
+ERROR: invalid message format: 2025-02-23T22:57:46-05:00: message failed to validate against schema:
+- source_id: String length must be less than or equal to 32
+
+ERROR: invalid message format: 2025-02-23T22:57:46-05:00: message failed to validate against schema:
+- (root): source_id is required
+- (root): details is required
+
