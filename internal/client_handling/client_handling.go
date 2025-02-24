@@ -8,9 +8,12 @@ import (
 	"fmt"
 	"net"
 	"strings"
+	"sync"
 
 	"github.com/xeipuuv/gojsonschema"
 )
+
+var abusePreventionMutex sync.Mutex
 
 type ClientHandler struct {
 	schema        []byte
@@ -36,27 +39,6 @@ func (handler *ClientHandler) HandleClient(conn net.Conn, abusePrevention *abuse
 
 	defer conn.Close()
 
-	//Get client IP
-	clientAddress := strings.Split(conn.RemoteAddr().String(), ":")
-
-	fmt.Printf("Client address: %s\n", conn.RemoteAddr())
-
-	clientIp := clientAddress[0]
-
-	//Check if IP is banned
-	result := abusePrevention.CheckIPBlacklist(clientIp)
-	if result != nil {
-		handler.sendResponse(conn, false, result.Error())
-		return
-	}
-
-	//Log message in rate limiter, check if rate has been exceeded.
-	err := abusePrevention.CheckIPRateLimiter(clientIp)
-	if err != nil {
-		handler.sendResponse(conn, false, err.Error())
-		return
-	}
-
 	//Read the message stream into memory
 	buffer := make([]byte, 4196)
 	bytesRead, err := conn.Read(buffer)
@@ -66,22 +48,17 @@ func (handler *ClientHandler) HandleClient(conn net.Conn, abusePrevention *abuse
 		return
 	}
 
+	//Truncate trailing '\00' chars
 	message := buffer[:bytesRead]
 
-	//Check message against json schema
-	err = handler.ValidateMessage(message, handler.schema)
+	//Get client IP
+	clientAddress := strings.Split(conn.RemoteAddr().String(), ":")
+
+	clientIp := clientAddress[0]
+
+	err = handler.ValidateMessage(message, clientIp, abusePrevention)
 	if err != nil {
-		//Are they banned now? If so let them know.
-		banMessage := abusePrevention.IncrementBadFormatCount(clientIp)
-		if banMessage != nil {
-			handler.sendResponse(conn, false, banMessage.Error())
-		} else { //Else, just send back the formatting errors
-			handler.sendResponse(conn, false, err.Error())
-		}
-		if handler.errorSettings.InvalidMessage == "redirect_to_error_log" {
-			handler.logWriter.WriteErrorToFile(err.Error(), "invalid message format", handler.errlogPath)
-		}
-		return
+		handler.sendResponse(conn, false, err.Error())
 	}
 
 	//Parse json into map
@@ -119,8 +96,44 @@ func (handler *ClientHandler) HandleClient(conn net.Conn, abusePrevention *abuse
 	}
 }
 
+// Runs all abuse prevention stuff & validates client message against schema
+func (handler *ClientHandler) ValidateMessage(data []byte, clientIp string, ap *abuseprevention.AbusePreventionTracker) error {
+
+	abusePreventionMutex.Lock()
+	defer abusePreventionMutex.Unlock()
+
+	//Check if IP is banned
+	result := ap.CheckIPBlacklist(clientIp)
+	if result != nil {
+		return result
+	}
+
+	//Log message in rate limiter, check if rate has been exceeded.
+	err := ap.CheckIPRateLimiter(clientIp)
+	if err != nil {
+		return err
+	}
+
+	//Check message against json schema
+	err = handler.CompareAgainstSchema(data, handler.schema)
+	if err != nil {
+		//Are they banned now? If so let them know.
+		banMessage := ap.IncrementBadFormatCount(clientIp)
+		if banMessage != nil {
+			return banMessage
+		} else { //Else, just send back the formatting errors
+			//Log it as well, if that's what config says
+			if handler.errorSettings.InvalidMessage == "redirect_to_error_log" {
+				handler.logWriter.WriteErrorToFile(err.Error(), "invalid message format", handler.errlogPath)
+			}
+			return err
+		}
+	}
+	return nil
+}
+
 // Validate the incoming message against the json schema referenced in config.json
-func (handler *ClientHandler) ValidateMessage(data []byte, schema []byte) error {
+func (handler *ClientHandler) CompareAgainstSchema(data []byte, schema []byte) error {
 
 	schemaLoader := gojsonschema.NewStringLoader(string(schema))
 	dataLoader := gojsonschema.NewStringLoader(string(data))

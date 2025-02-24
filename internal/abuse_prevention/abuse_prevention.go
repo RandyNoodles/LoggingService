@@ -4,11 +4,8 @@ import (
 	"LoggingService/config"
 	ratelimiter "LoggingService/internal/abuse_prevention/rateLimiter"
 	"fmt"
-	"sync"
 	"time"
 )
-
-var abusePreventionMutex sync.Mutex
 
 type AbusePreventionTracker struct {
 	ipRateLimiters           map[string]*ratelimiter.RateLimiter
@@ -42,8 +39,6 @@ func New(protocolConfig config.ProtocolSettings) *AbusePreventionTracker {
 }
 
 func (apt *AbusePreventionTracker) CheckIPRateLimiter(ipAddress string) error {
-	abusePreventionMutex.Lock()
-	defer abusePreventionMutex.Unlock()
 
 	//If IP doesn't exist in our records yet, register them
 	_, exists := apt.ipRateLimiters[ipAddress]
@@ -70,8 +65,6 @@ func (apt *AbusePreventionTracker) CheckIPRateLimiter(ipAddress string) error {
 }
 
 func (apt *AbusePreventionTracker) CheckIPBlacklist(ipAddress string) error {
-	abusePreventionMutex.Lock()
-	defer abusePreventionMutex.Unlock()
 
 	if timestamp, exists := apt.blacklistedIPs[ipAddress]; exists {
 		durationBanned := uint32(time.Now().Unix()) - timestamp
@@ -88,8 +81,6 @@ func (apt *AbusePreventionTracker) CheckIPBlacklist(ipAddress string) error {
 }
 
 func (apt *AbusePreventionTracker) IncrementBadFormatCount(sourceIp string) error {
-	abusePreventionMutex.Lock()
-	defer abusePreventionMutex.Unlock()
 
 	apt.ipBadFormatCount[sourceIp]++
 	if apt.ipBadFormatCount[sourceIp] >= apt.badMessageThreshold {
