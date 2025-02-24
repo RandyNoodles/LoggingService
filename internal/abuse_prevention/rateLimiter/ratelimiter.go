@@ -1,6 +1,7 @@
 package ratelimiter
 
 import (
+	"fmt"
 	"time"
 )
 
@@ -34,6 +35,7 @@ func (mrb *RateLimiter) IsRateExceeded() (bool, uint32) {
 
 	//Have you sent more than [mrb.bufferSize] messages in the last 60 sec?
 	timeElapsed := currentSeconds - mrb.timestampBuffer[mrb.writePos]
+	fmt.Printf("time elapsed: %d\n", timeElapsed)
 	if timeElapsed < 60 {
 		return true, mrb.clientOffenses //If yes, your rate has been exceeded.
 	}

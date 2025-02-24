@@ -54,7 +54,7 @@ func New(protocolConfig config.ProtocolSettings) *AbusePreventionTracker {
 	return newTracker
 }
 
-func (apt *AbusePreventionTracker) CheckSourceRateLimiter(sourceId, ipAddress string) error {
+func (apt *AbusePreventionTracker) CheckSourceRateLimiter(sourceId string) error {
 	abusePreventionMutex.Lock()
 	defer abusePreventionMutex.Unlock()
 
@@ -62,8 +62,8 @@ func (apt *AbusePreventionTracker) CheckSourceRateLimiter(sourceId, ipAddress st
 	if rejected {
 		if clientOffenses >= apt.badMessageThreshold {
 			// Ban the IP if the client has exceeded the bad message threshold.
-			apt.blacklistedIPs[ipAddress] = uint32(time.Now().Unix())
-			return fmt.Errorf("IP address %s has exceeded its message rate limit too many times. IP address is now banned for %d seconds", ipAddress, apt.blacklistDurationSeconds)
+			apt.blacklistedSourceIds[sourceId] = uint32(time.Now().Unix())
+			return fmt.Errorf("SourceId %s has exceeded its message rate limit too many times. Source is now banned for %d seconds", sourceId, apt.blacklistDurationSeconds)
 		}
 		return fmt.Errorf("source_id '%s' has exceeded its message rate limit", sourceId)
 	}

@@ -41,6 +41,8 @@ func (handler *ClientHandler) HandleClient(conn net.Conn, abusePrevention *abuse
 	//Get client IP
 	clientAddress := strings.Split(conn.RemoteAddr().String(), ":")
 
+	fmt.Printf("Client address: %s\n", conn.RemoteAddr())
+
 	clientIp := clientAddress[0]
 
 	//Check if IP is banned
@@ -49,6 +51,13 @@ func (handler *ClientHandler) HandleClient(conn net.Conn, abusePrevention *abuse
 		handler.sendResponse(conn, false, result.Error())
 		return
 	}
+
+	// //Log message in rate limiter, check if rate has been exceeded.
+	// err := abusePrevention.CheckIPRateLimiter(clientIp)
+	// if err != nil {
+	// 	handler.sendResponse(conn, false, result.Error())
+	// 	return
+	// }
 
 	//Read the message stream into memory
 	buffer := make([]byte, 4196)
@@ -93,6 +102,13 @@ func (handler *ClientHandler) HandleClient(conn net.Conn, abusePrevention *abuse
 		handler.sendResponse(conn, false, result.Error())
 		return
 	}
+
+	// //Log message in rate limiter, check if rate has been exceeded.
+	// err = abusePrevention.CheckSourceRateLimiter(parsedMessage["source_id"].(string))
+	// if err != nil {
+	// 	handler.sendResponse(conn, false, result.Error())
+	// 	return
+	// }
 
 	//Format log
 	formattedLog, err := handler.logWriter.FormatLogEntry(parsedMessage, clientIp)
