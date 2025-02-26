@@ -69,10 +69,15 @@ For more explicit formatting, see `config_schema.json`
 
 ### logfile_settings
 `path`: Path to the logfile where all logs will be written
+
 `format`: "json", or "plaintext". If "plaintext" selected, will use the delimiters noted below.
+
 `plaintext_field_delimiter`: A string of chars to be written to log between each field in a record
+
 `plaintext_entry_delimiter`: A string of chars to be written between each record
+
 `column_order`: The order of columns to be written to log. (SEE USAGE BELOW)
+
 #### `column_order` Usage
 - `column_order` determines what order the fields are written to logfile.
 - Any field names not found in the `incoming_json_schema`, or in the `server default fields` will throw an error on startup.
@@ -80,11 +85,18 @@ For more explicit formatting, see `config_schema.json`
 - If a field name is omitted from this list, it will not be written to the logfile
 ### protocol_settings
 `incoming_json_schema`: Relative file path of the JSON schema used to validate incoming JSON log messages. Note: `timestamp` and `source_ip` fields are server-generated.
+
 `messages_per_ip_per_minute`: The number of messages an IP can send per minute before they are blacklisted.
+
 `bad_message_blacklist_threshold`: The number of malformed logs sent before an IP is blacklisted.
+
 `blacklisted_ips`: Array of user-defined IPs blacklisted upon startup. Format must be IPv4
+
 `blacklist_permanent`: If `true`, blacklisted IPs will never be reset.
+
 `blacklist_duration_seconds`: If `blacklist_permanent` is set to `false`, IPs will be removed from the blacklist on their first message attempt after N seconds.
+
 ### error_handling
 `invalid_message`: On invalid message format, either `redirect_to_error_log`, which will log the formatting error for later review. Or `ignore`, meaning client will be notified, but error is not logged.
+
 `error_log_path`: Path to file where errors are logged.
