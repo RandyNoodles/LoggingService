@@ -1,3 +1,16 @@
+# Overview
+A simple TCP logging service:
+- Uses goroutines to handle clients concurrently
+- Message format is user-definable via JSON schema
+- Configurable logs
+  - column order
+  - delimiters
+  - JSON
+- Configurable abuse prevention:
+  - Messages/per client per min
+  - Blacklist duration / permanent blacklist
+  - Malformed request limit before blacklisting
+---
 # Logging Message Protocol
 ## Incoming Requests
 Logs must be sent in `json` format.
