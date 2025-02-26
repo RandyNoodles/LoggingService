@@ -71,7 +71,6 @@ func (h *ClientHandler) HandleClient(conn net.Conn) {
 	clientAddress := strings.Split(conn.RemoteAddr().String(), ":")
 
 	clientIp := clientAddress[0]
-	fmt.Printf("Client Ip: %s\n", clientIp)
 
 	err = h.ValidateMessage(message, clientIp)
 	if err != nil {

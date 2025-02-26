@@ -82,9 +82,7 @@ func main() {
 			return
 
 		default:
-			fmt.Println("server blocked")
 			conn, err := listener.Accept()
-			fmt.Println("server unblocked")
 			if err != nil {
 				fmt.Println("Error accepting connection:", err)
 				continue
