@@ -6,6 +6,7 @@ A simple TCP logging service:
   - column order
   - delimiters
   - JSON
+  - Timestamp format
 - Configurable abuse prevention:
   - Messages/per client per min
   - Blacklist duration / permanent blacklist
