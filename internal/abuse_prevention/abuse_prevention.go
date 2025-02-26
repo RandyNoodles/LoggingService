@@ -1,10 +1,8 @@
 /*
 * FILE : 			abuse_prevention.go
-* PROJECT : 		SENG2040 - Assignment #3
-* PROGRAMMER : 		Woongbeen Lee, Joshua Rice
 * FIRST VERSION : 	2025-02-22
 * DESCRIPTION :
-			AbusePreventionTracker is a class that tracks the number of times
+			AbusePreventionTracker provides functions to track the number of times
 		clients have exceeded their rate limit or sent bad messages.
 
 		All messages return nil if no action has been taken, or an error detailing that

@@ -1,14 +1,15 @@
 /*
 * FILE : 			client_handling.go
-* PROJECT : 		SENG2040 - Assignment #3
-* PROGRAMMER : 		Woongbeen Lee, Joshua Rice
 * FIRST VERSION : 	2025-02-23
 * DESCRIPTION :
-			HandleClient() is the primary function to handle incoming client
-		log messages. It handles:
-		- Calling abuse prevention mechanisms
-		- Validating the incoming message against the user-defined schema
-		- Writing to logfile(s)
+		HandleClient() is the main function to handle incoming log messages.
+
+		Usage:
+		- clientHandling.New(*config.Config) to instantiate a client handler
+		- Use go routines to call clientHandling.HandleClient()
+
+		Mutexes will handle concurrency issues between log writing and access
+		to abuse prevention mechanisms.
 */
 
 package clienthandling
@@ -16,7 +17,7 @@ package clienthandling
 import (
 	"LoggingService/config"
 	abuseprevention "LoggingService/internal/abuse_prevention"
-	"LoggingService/internal/logwriter"
+	"LoggingService/internal/logwriting"
 	"encoding/json"
 	"fmt"
 	"net"
@@ -29,26 +30,28 @@ import (
 var abusePreventionMutex sync.Mutex
 
 type ClientHandler struct {
-	schema        []byte
-	errorSettings config.ErrorSettings
-	logWriter     *logwriter.LogWriter
-	logPath       string
-	errlogPath    string
+	schema          []byte
+	errorSettings   config.ErrorSettings
+	logWriter       *logwriting.LogWriter
+	abusePrevention *abuseprevention.AbusePreventionTracker
+	logPath         string
+	errlogPath      string
 }
 
 // Construct new ClientHandler (compose along with new LogWriter)
 func New(settings config.Config) *ClientHandler {
 	return &ClientHandler{
-		schema:        settings.ProtocolSettings.IncomingMessageSchema,
-		errorSettings: settings.ErrorHandling,
-		logWriter:     logwriter.New(settings.LogfileSettings),
-		logPath:       settings.LogfileSettings.Path,
-		errlogPath:    settings.ErrorHandling.ErrorLogPath,
+		schema:          settings.ProtocolSettings.IncomingMessageSchema,
+		errorSettings:   settings.ErrorHandling,
+		logWriter:       logwriting.New(settings.LogfileSettings),
+		abusePrevention: abuseprevention.New(settings.ProtocolSettings),
+		logPath:         settings.LogfileSettings.Path,
+		errlogPath:      settings.ErrorHandling.ErrorLogPath,
 	}
 }
 
 // Main go routine client handler function
-func (handler *ClientHandler) HandleClient(conn net.Conn, abusePrevention *abuseprevention.AbusePreventionTracker) {
+func (h *ClientHandler) HandleClient(conn net.Conn) {
 
 	defer conn.Close()
 
@@ -56,8 +59,8 @@ func (handler *ClientHandler) HandleClient(conn net.Conn, abusePrevention *abuse
 	buffer := make([]byte, 4196)
 	bytesRead, err := conn.Read(buffer)
 	if bytesRead == 0 {
-		handler.logWriter.WriteErrorToFile(err.Error(), "internal:HandleClient():conn.Read()", handler.errlogPath)
-		handler.sendResponse(conn, false, "internal server error")
+		h.logWriter.WriteErrorToFile(err.Error(), "internal:HandleClient():conn.Read()", h.errlogPath)
+		h.sendResponse(conn, false, "internal server error")
 		return
 	}
 
@@ -70,33 +73,33 @@ func (handler *ClientHandler) HandleClient(conn net.Conn, abusePrevention *abuse
 	clientIp := clientAddress[0]
 	fmt.Printf("Client Ip: %s\n", clientIp)
 
-	err = handler.ValidateMessage(message, clientIp, abusePrevention)
+	err = h.ValidateMessage(message, clientIp)
 	if err != nil {
-		handler.sendResponse(conn, false, err.Error())
+		h.sendResponse(conn, false, err.Error())
 	}
 
 	//Parse json into map
 	var parsedMessage map[string]interface{}
 	err = json.Unmarshal(message, &parsedMessage)
 	if err != nil {
-		handler.logWriter.WriteErrorToFile(err.Error(), "internal:HandleClient():json.Unmarshal()", handler.errlogPath)
-		handler.sendResponse(conn, false, "internal server error")
+		h.logWriter.WriteErrorToFile(err.Error(), "internal:HandleClient():json.Unmarshal()", h.errlogPath)
+		h.sendResponse(conn, false, "internal server error")
 		return
 	}
 
 	//Format log
-	formattedLog, err := handler.logWriter.FormatLogEntry(parsedMessage, clientIp)
+	formattedLog, err := h.logWriter.FormatLogEntry(parsedMessage, clientIp)
 	if err != nil {
-		handler.logWriter.WriteErrorToFile(err.Error(), "internal: internal:HandleClient():FormatLogEntry()", handler.errlogPath)
-		handler.sendResponse(conn, false, "internal server error")
+		h.logWriter.WriteErrorToFile(err.Error(), "internal: internal:HandleClient():FormatLogEntry()", h.errlogPath)
+		h.sendResponse(conn, false, "internal server error")
 		return
 	}
 
 	//Write log to file
-	err = handler.logWriter.WriteLogToFile(formattedLog, handler.logPath)
+	err = h.logWriter.WriteLogToFile(formattedLog, h.logPath)
 	if err != nil {
-		handler.logWriter.WriteErrorToFile(err.Error(), "internal:HandleClient():WriteLogToFile()", handler.errlogPath)
-		handler.sendResponse(conn, false, "internal server error")
+		h.logWriter.WriteErrorToFile(err.Error(), "internal:HandleClient():WriteLogToFile()", h.errlogPath)
+		h.sendResponse(conn, false, "internal server error")
 		return
 	}
 
@@ -106,39 +109,39 @@ func (handler *ClientHandler) HandleClient(conn net.Conn, abusePrevention *abuse
 	bytesWritten, err := conn.Write(response)
 	if bytesWritten == 0 || err != nil {
 		errorMessage := fmt.Sprintf("Unable to respond to client on connection: %s", conn.RemoteAddr())
-		handler.logWriter.WriteErrorToFile(errorMessage, "internal:sendResponse():conn.Write()", handler.errlogPath)
+		h.logWriter.WriteErrorToFile(errorMessage, "internal:sendResponse():conn.Write()", h.errlogPath)
 	}
 }
 
 // Runs all abuse prevention stuff & validates client message against schema
-func (handler *ClientHandler) ValidateMessage(data []byte, clientIp string, ap *abuseprevention.AbusePreventionTracker) error {
+func (h *ClientHandler) ValidateMessage(data []byte, clientIp string) error {
 
 	abusePreventionMutex.Lock()
 	defer abusePreventionMutex.Unlock()
 
 	//Check if IP is banned
-	result := ap.CheckIPBlacklist(clientIp)
+	result := h.abusePrevention.CheckIPBlacklist(clientIp)
 	if result != nil {
 		return result
 	}
 
 	//Log message in rate limiter, check if rate has been exceeded.
-	err := ap.CheckIPRateLimiter(clientIp)
+	err := h.abusePrevention.CheckIPRateLimiter(clientIp)
 	if err != nil {
 		return err
 	}
 
 	//Check message against json schema
-	err = handler.CompareAgainstSchema(data, handler.schema)
+	err = h.CompareAgainstSchema(data, h.schema)
 	if err != nil {
 		//Are they banned now? If so let them know.
-		banMessage := ap.IncrementBadFormatCount(clientIp)
+		banMessage := h.abusePrevention.IncrementBadFormatCount(clientIp)
 		if banMessage != nil {
 			return banMessage
 		} else { //Else, just send back the formatting errors
 			//Log it as well, if that's what config says
-			if handler.errorSettings.InvalidMessage == "redirect_to_error_log" {
-				handler.logWriter.WriteErrorToFile(err.Error(), "invalid message format", handler.errlogPath)
+			if h.errorSettings.InvalidMessage == "redirect_to_error_log" {
+				h.logWriter.WriteErrorToFile(err.Error(), "invalid message format", h.errlogPath)
 			}
 			return err
 		}

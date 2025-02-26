@@ -1,7 +1,5 @@
 /*
 * FILE : 			config.go
-* PROJECT : 		SENG2040 - Assignment #3
-* PROGRAMMER : 		Woongbeen Lee, Joshua Rice
 * FIRST VERSION : 	2025-02-22
 * DESCRIPTION :
 			Parses config.json, as well as the user-defined message format

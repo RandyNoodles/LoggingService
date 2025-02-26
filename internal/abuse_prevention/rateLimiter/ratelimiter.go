@@ -1,7 +1,5 @@
 /*
 * FILE : 			ratelimiter.go
-* PROJECT : 		SENG2040 - Assignment #3
-* PROGRAMMER : 		Woongbeen Lee, Joshua Rice
 * FIRST VERSION : 	2025-02-22
 * DESCRIPTION :
 			RateLimiter is basically a simplified ring buffer that tracks

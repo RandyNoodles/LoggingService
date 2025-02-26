@@ -1,7 +1,5 @@
 /*
-* FILE : 			logwriter.go
-* PROJECT : 		SENG2040 - Assignment #3
-* PROGRAMMER : 		Woongbeen Lee, Joshua Rice
+* FILE : 			logwriting.go
 * FIRST VERSION : 	2025-02-22
 * DESCRIPTION :
 			Upon construction, notes down the logfile format specified
@@ -11,7 +9,7 @@
 		configured format.
 */
 
-package logwriter
+package logwriting
 
 import (
 	"LoggingService/config"
