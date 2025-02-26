@@ -5,8 +5,8 @@ A simple TCP logging service:
 - Configurable logs
   - column order
   - delimiters
-  - JSON
   - Timestamp format
+  - JSON format instead of delimiters
 - Configurable abuse prevention:
   - Messages/per client per min
   - Blacklist duration / permanent blacklist
